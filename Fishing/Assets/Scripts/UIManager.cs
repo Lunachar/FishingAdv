@@ -22,7 +22,7 @@ public class UIManager : MonoBehaviour
         {
             Debug.Log("WeatherUI isn't set.");
         }
-        _weatherSystem = new WeatherSystem();
+     //   _weatherSystem = new WeatherSystem();
         
         // _fishingUI = new FishingUI();
 
@@ -33,7 +33,7 @@ public class UIManager : MonoBehaviour
         // Initialization
     
         // _fishingUI.Initialize();
-        weatherUI.Initialize(_weatherSystem);
+        //weatherUI.Initialize(_weatherSystem);
         // _idleSkillsUI.Initialize();
         // _catchUI.Initialize();
     
