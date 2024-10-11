@@ -36,4 +36,9 @@ public class FishingSystem
     {
         throw new NotImplementedException("start fishing logic");
     }
+
+    public string GetCurrentBait()
+    {
+        throw new NotImplementedException();
+    }
 }

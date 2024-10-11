@@ -13,17 +13,18 @@ public class GameManager
 
     public void Initialize()
     {
-        _uiManager = new UIManager();
-        _fishingSystem = new FishingSystem();
+        Debug.Log("GM");
+        //_uiManager = gameObject.AddComponent<UIManager>();
+        //_fishingSystem = new FishingSystem();
         _weatherSystem = new WeatherSystem();
-        _idleSkillSystem = new IdleSkillSystem();
-        _databaseManager = new DatabaseManager();
+        //_idleSkillSystem = new IdleSkillSystem();
+        // _databaseManager = new DatabaseManager();
 
         //_uiManager.Initialize();
         
-        _fishingSystem.Initialize();
+        // _fishingSystem.Initialize();
         _weatherSystem.Initialize();
-        _idleSkillSystem.Initialize();
+        // _idleSkillSystem.Initialize();
         //_databaseManager.Initialize();
     }
 }
