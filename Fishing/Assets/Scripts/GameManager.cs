@@ -23,7 +23,7 @@ public class GameManager
         //_uiManager.Initialize();
         
         // _fishingSystem.Initialize();
-        _weatherSystem.Initialize();
+        _weatherSystem.Initialize(_weatherSystem);
         // _idleSkillSystem.Initialize();
         //_databaseManager.Initialize();
     }
