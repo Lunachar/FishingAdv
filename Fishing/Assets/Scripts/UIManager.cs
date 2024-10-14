@@ -11,13 +11,14 @@ public class UIManager : MonoBehaviour
     public WeatherUI weatherUI;
     
     
-    private WeatherSystem _weatherSystem;
+    //private WeatherSystem _weatherSystem;
     
     // private IdleSkillsUI _idleSkillsUI;
     // private CatchUI _catchUI;
     //
-    public void Initialize()
+    public void Initialize(WeatherSystem weatherSystem)
     {
+        weatherUI?.Initialize(weatherSystem);
         if (weatherUI == null)
         {
             Debug.Log("WeatherUI isn't set.");
@@ -41,6 +42,6 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        weatherUI.UpdateWeatherUI();
+        weatherUI?.UpdateWeatherUI();
     }
 }

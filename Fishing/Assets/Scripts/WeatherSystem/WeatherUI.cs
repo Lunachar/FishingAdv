@@ -12,6 +12,13 @@ public class WeatherUI: MonoBehaviour
     public void Initialize(WeatherSystem weatherSystem)
     {
         _weatherSystem = weatherSystem;
+        
+        if (WeatherText == null || SeasonText == null)
+        {
+            Debug.Log("Text not assigned");
+            return;
+        }
+        
         UpdateWeatherUI();
     }
 

@@ -6,23 +6,19 @@ using UnityEngine.Serialization;
 
 public class Boot : MonoBehaviour
 {
-    public UIManager uiManager;
+    public UIManager _uiManager;
     
     private GameManager _gameManager;
 
     private void Awake()
     {
         Debug.Log("Boot");
-        GameObject gameObject = this.gameObject;
+       
         _gameManager = new GameManager();
-        _gameManager.Initialize();
 
-        // UIManager = new UIManager();
-        // UIManager.Initialize();
-
-        if (uiManager != null)
+        if (_uiManager != null)
         {
-            uiManager.Initialize();
+            _gameManager.Initialize(_uiManager);
         }
         else
         {
