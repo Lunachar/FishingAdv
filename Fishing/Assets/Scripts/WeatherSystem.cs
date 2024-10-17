@@ -7,7 +7,7 @@ public class WeatherSystem
     private string _currentWeather;
     private string _currentSeason;
 
-    private List<string> _seasons = new List<string> { "Sping", "Summer", "Autumn", "Winter" };
+    private List<string> _seasons = new List<string> { "Spring", "Summer", "Autumn", "Winter" };
     
     private List<string> _weatherTypes = new List<string>
     { 
