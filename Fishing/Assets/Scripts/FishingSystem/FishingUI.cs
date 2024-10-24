@@ -1,24 +1,30 @@
 ﻿using System;
+using System.Globalization;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class FishingUI : MonoBehaviour
 {
-    public Slider CastDistanceSlider;
+    public Slider CastDistanceSliderChoose;
+    public TMP_Text Text_ChooseCastValue;
+    [Space(10)]
+    public Slider CastDistanceSliderSet;
+    public TMP_Text Text_SetCastValue;
+    [Space(10)]
     public Slider DepthSlider;
-    public Button stopButton;
-    public TMP_Text CastValueText;
-    public Text BaitText;
+    public Button ButtonStopStart;
+    public TMP_Text BaitText;
 
-    private bool _isMoving = true;
+    private bool _isMoving = false;
     private float _timeElapsed = 0f;
     private FishingSystem _fishingSystem;
 
     public float speed = 2f;
-    private float minValue = 0.1f;
-    private float maxValue = 2f;
-    private float centerValue = 1f;
+    private float _minValue;
+    private float _maxValue;
+    private float _centerValue;
 
     public void Initialize(FishingSystem fishingSystem)
     {
@@ -27,15 +33,19 @@ public class FishingUI : MonoBehaviour
 
     public void UpdateUI()
     {
-        _fishingSystem.SetCastDistance(CastDistanceSlider.value);
+        _fishingSystem.SetCastDistance(CastDistanceSliderSet.value);
         _fishingSystem.SetDepth(DepthSlider.value);
         BaitText.text = _fishingSystem.GetCurrentBait();
     }
 
     private void Start()
     {
-        stopButton.onClick.AddListener(ToggleSliderMovement);
-        UpdateButtonText();
+        CastDistanceSliderSet.gameObject.SetActive(false);
+        ButtonStopStart.onClick.AddListener(ToggleSliderMovement);
+        _centerValue = CastDistanceSliderChoose.value;
+        
+        CastDistanceSliderChoose.onValueChanged.AddListener(OnChooseCastDistanceChanged);
+        
     }
 
     private void Update()
@@ -44,6 +54,19 @@ public class FishingUI : MonoBehaviour
         {
             MoveSlider();
         }
+
+        Text_ChooseCastValue.text = CastDistanceSliderChoose.value.ToString(CultureInfo.CurrentCulture);
+    }
+
+    private void OnChooseCastDistanceChanged(float value)
+    {
+        _centerValue = value;
+        _minValue = _centerValue > 4 ? _centerValue - 3f : 1f;
+        _maxValue = _centerValue + 5f;
+        
+        CastDistanceSliderSet.gameObject.SetActive(true);
+        _isMoving = true;
+        UpdateButtonText();
     }
 
     private void MoveSlider()
@@ -51,34 +74,34 @@ public class FishingUI : MonoBehaviour
         _timeElapsed += Time.deltaTime * speed;
 
         float sliderValue = Mathf.Sin(_timeElapsed) * 0.5f + 0.5f;
-        CastDistanceSlider.value = sliderValue;
+        CastDistanceSliderSet.value = sliderValue;
 
         float transformedValue = TransformSliderValue(sliderValue);
 
-        CastValueText.text = transformedValue.ToString("F2");
+        Text_SetCastValue.text = transformedValue.ToString("F2");
     }
 
     private float TransformSliderValue(float sliderValue)
     {
         if (sliderValue <= 0.5f)
         {
-            return Mathf.Lerp(minValue, centerValue, sliderValue * 2);
+            return Mathf.Lerp(_minValue, _centerValue, sliderValue * 2);
         }
         else
         {
-            return Mathf.Lerp(centerValue, maxValue, (sliderValue - 0.5f) * 2);
+            return Mathf.Lerp(_centerValue, _maxValue, (sliderValue - 0.5f) * 2);
         }
     }
 
     private void ToggleSliderMovement()
     {
         _isMoving = !_isMoving;
-        Debug.Log("Current Slider Value: " + CastDistanceSlider.value);
+        Debug.Log("Current Slider Value: " + CastDistanceSliderSet.value);
         UpdateButtonText();
     }
 
     private void UpdateButtonText()
     {
-        stopButton.GetComponentInChildren<TMP_Text>().text = _isMoving ? "Stop" : "Start";
+        ButtonStopStart.GetComponentInChildren<TMP_Text>().text = _isMoving ? "Stop" : "Start";
     }
 }

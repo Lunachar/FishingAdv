@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class DatabaseManager
 {
+    private FishDatabaseManager _fishDatabaseManager; 
+    
+    public void Initialize()
+    {
+        _fishDatabaseManager = new FishDatabaseManager();
+    }
     public void Connect()
     {
         
@@ -18,4 +24,5 @@ public class DatabaseManager
     {
         return "LoadedValue";
     }
+
 }

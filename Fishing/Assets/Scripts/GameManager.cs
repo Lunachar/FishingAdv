@@ -18,7 +18,7 @@ public class GameManager
         _weatherSystem = new WeatherSystem();
         _weatherSystem.Initialize();
         //_idleSkillSystem = new IdleSkillSystem();
-        // _databaseManager = new DatabaseManager();
+        _databaseManager = new DatabaseManager();
 
         //_uiManager.Initialize();
         
@@ -27,6 +27,6 @@ public class GameManager
         _uiManager = uiManager;
         _uiManager.Initialize(_weatherSystem);
         // _idleSkillSystem.Initialize();
-        //_databaseManager.Initialize();
+        _databaseManager.Initialize();
     }
 }
