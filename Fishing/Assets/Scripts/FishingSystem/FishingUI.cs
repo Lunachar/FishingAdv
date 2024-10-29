@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using TMPro;
 using UnityEngine;
@@ -7,24 +8,43 @@ using UnityEngine.UI;
 
 public class FishingUI : MonoBehaviour
 {
+    #region UI Elements
+
+    [Header("Cast Distance Selection")]
     public Slider CastDistanceSliderChoose;
     public TMP_Text Text_ChooseCastValue;
-    [Space(10)]
+    
+    [Header("Casting Setting")]
     public Slider CastDistanceSliderSet;
     public TMP_Text Text_SetCastValue;
-    [Space(10)]
+    
+    [Header("Depth Selection")]
     public Slider DepthSlider;
+    public TMP_Text DepthText;
+    
+    [Header("Bait Selection")]
+    public TMP_Dropdown BaitDropdown;
+    
+    [Header("Control Button")]
     public Button ButtonStopStart;
-    public TMP_Text BaitText;
 
-    private bool _isMoving = false;
-    private float _timeElapsed = 0f;
-    private FishingSystem _fishingSystem;
+    #endregion
 
+    #region Private Fields
+
+    private bool _isMoving = false;       // Flag for slider movement
+    private float _timeElapsed = 0f;      // Elapsed time for slider oscillation
+    private FishingSystem _fishingSystem; // Reference to the fishing system
+    private string _selectedBait;         // Holds selected bait from dropdown
+    private float _selectedDepth;         // Holds selected depth from depth slider
+
+    [Header("Slider Motion Setting")]
     public float speed = 2f;
     private float _minValue;
     private float _maxValue;
     private float _centerValue;
+
+    #endregion
 
     public void Initialize(FishingSystem fishingSystem)
     {
@@ -35,7 +55,6 @@ public class FishingUI : MonoBehaviour
     {
         _fishingSystem.SetCastDistance(CastDistanceSliderSet.value);
         _fishingSystem.SetDepth(DepthSlider.value);
-        BaitText.text = _fishingSystem.GetCurrentBait();
     }
 
     private void Start()
@@ -46,6 +65,40 @@ public class FishingUI : MonoBehaviour
         
         CastDistanceSliderChoose.onValueChanged.AddListener(OnChooseCastDistanceChanged);
         
+        DepthSlider.onValueChanged.AddListener(delegate { DepthSliderValueChanged();});
+        
+        BaitDropdown.onValueChanged.AddListener(delegate { BaitDropdownValueChanged();});
+        PopulateBaitOptions();
+    }
+
+    private void PopulateBaitOptions()
+    {
+        BaitDropdown.ClearOptions();
+        List<string> baitOptions = new List<string> { "Червь", "Насекомое", "Тесто", "Мальки", "Креветка", "Хлеб" };
+        BaitDropdown.AddOptions(baitOptions);
+    }
+
+    private void BaitDropdownValueChanged()
+    {
+        _selectedBait = BaitDropdown.options[BaitDropdown.value].text;
+        Debug.Log("Selected bait: " + _selectedBait);
+    }
+
+    private string GetSelectedBait()
+    {
+        return _selectedBait;
+    }
+
+    private void DepthSliderValueChanged()
+    {
+        _selectedDepth = DepthSlider.value;
+        DepthText.text = "Выбранная глубина: " + _selectedDepth.ToString("F1") + " метров";
+        Debug.Log("Selected depth: " + _selectedDepth);
+    }
+
+    private float GetSelectedDepth()
+    {
+        return _selectedDepth;
     }
 
     private void Update()
@@ -102,6 +155,6 @@ public class FishingUI : MonoBehaviour
 
     private void UpdateButtonText()
     {
-        ButtonStopStart.GetComponentInChildren<TMP_Text>().text = _isMoving ? "Stop" : "Start";
+        ButtonStopStart.GetComponentInChildren<TMP_Text>().text = _isMoving ? "Заброс" : "Перебросить";
     }
 }
