@@ -8,11 +8,24 @@ public class FishingSystem
     private string _bait;
     private float _playerSkill;
     private WeatherSystem _weather;
+    private DatabaseManager _databaseManager;
+    private Fish _currentFish;
 
-    public FishingSystem(float playerSkill, WeatherSystem weather)
+    public FishingSystem(DatabaseManager databaseManager, WeatherSystem weather)
     {
-        _playerSkill = playerSkill;
+        _databaseManager = databaseManager;
         _weather = weather;
+    }
+
+    public Fish LoadFishData(string fishName)
+    {
+        _currentFish = _databaseManager.LoadFishData(fishName);
+        return _currentFish;
+    }
+
+    public Fish GetCurrentFish()
+    {
+        return _currentFish;
     }
     
     public void SetCastDistance(float distance)
@@ -67,22 +80,34 @@ public class FishingSystem
 
     private float CalculateDistanceFactor()
     {
-        throw new NotImplementedException();
+        float preferredDistance = _currentFish.PreferredCastDistance;
+        float distanceAccuracy = Mathf.Abs(_castDistance - preferredDistance);
+        
+        float factor = Mathf.Clamp(1 - distanceAccuracy / 10f, 0f, 1f);     // if accuracy < 1 then factor is max, if accuracy > 10 then factor is min
+        return factor * 0.2f;                               // this factor weight in overall catch probability
     }
 
     private float CalculateDepthFactor()
     {
-        throw new NotImplementedException();
+        float preferredDepth = _currentFish.PreferredDepth;
+        float depthAccuracy = Mathf.Abs(_depth - preferredDepth);
+        
+        // analogy: the closer depth - the higher the factor
+        float factor = Mathf.Clamp(1 - depthAccuracy / 10f, 0f, 1f);     // if accuracy < 1 then factor is max, if accuracy > 10 then factor is min
+        return factor * 0.2f;                               // this factor weight in overall catch probability
     }
 
     private float CalculateBaitFactor()
     {
-        throw new NotImplementedException();
+        // if chosen bait is the same as preferred bait then factor is max
+        return _bait == _currentFish.PreferredBait ? 0.2f : 0f;
     }
 
     private float CalculateWeatherFactor()
     {
-        throw new NotImplementedException();
+        // check if the current weather is the same as preferred
+        string currentWeather = _weather.GetWeather();
+        return _currentFish.ActiveWeather == currentWeather ? 0.15f : 0f;
     }
 
     private bool IsFishCaught(float probability)
@@ -92,7 +117,7 @@ public class FishingSystem
 
     private Fish DetermineFishCaught(float catchProbability)
     {
-        throw new NotImplementedException();
+        return _currentFish; 
         //return new Fish("Обычная рыба", 1)
     }
 

@@ -1,4 +1,4 @@
-﻿internal class Fish
+﻿public class Fish
 {
     public string FishName;
     public float PreferredDepth;

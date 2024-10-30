@@ -10,6 +10,11 @@ public class DatabaseManager
     {
         _fishDatabaseManager = new FishDatabaseManager();
     }
+
+    public FishDatabaseManager GetFishDatabaseManager()
+    {
+        return _fishDatabaseManager;
+    }
     public void Connect()
     {
         
@@ -25,4 +30,8 @@ public class DatabaseManager
         return "LoadedValue";
     }
 
+    public Fish LoadFishData(string fishName)
+    {
+        return _fishDatabaseManager.LoadFishData(fishName);
+    }
 }

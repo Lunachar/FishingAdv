@@ -15,6 +15,7 @@ public class FishDatabaseManager
             InsertFishData();
         }
     }
+
     private void CreateDatabase()
     {
         if (!System.IO.File.Exists("FishDatabase.sqlite"))
@@ -36,6 +37,7 @@ public class FishDatabaseManager
             }
         }
     }
+
     private bool IsDatabaseInitialized()
     {
         using (var connection = new SqliteConnection(_connectionString))
@@ -57,7 +59,8 @@ public class FishDatabaseManager
             connection.Open();
             foreach (var fish in fishList)
             {
-                string sql = @"INSERT INTO Fish (FishName, PreferredDepth, PreferredCastDistance, ActiveSeason, ActiveWeather, Rarity, PreferredBait)
+                string sql =
+                    @"INSERT INTO Fish (FishName, PreferredDepth, PreferredCastDistance, ActiveSeason, ActiveWeather, Rarity, PreferredBait)
                                VALUES (@FishName, @PreferredDepth, @PreferredCastDistance, @ActiveSeason, @ActiveWeather, @Rarity, @PreferredBait)";
 
                 SqliteCommand command = new SqliteCommand(sql, connection);
@@ -70,8 +73,9 @@ public class FishDatabaseManager
                 command.Parameters.AddWithValue("@PreferredBait", fish.PreferredBait);
                 command.ExecuteNonQuery();
             }
-        }        
+        }
     }
+
     private List<Fish> GetFishList()
     {
         return new List<Fish>
@@ -100,4 +104,28 @@ public class FishDatabaseManager
     }
 
 
+    public Fish LoadFishData(string fishName)
+    {
+        using (var connection = new SqliteConnection(_connectionString))
+        {
+            connection.Open();
+            string sql = "SELECT * FROM Fish WHERE FishName = @FishName";
+            SqliteCommand command = new SqliteCommand(sql, connection);
+            command.Parameters.AddWithValue("@FishName", fishName);
+            SqliteDataReader reader = command.ExecuteReader();
+            if (reader.Read())
+            {
+                string name = reader["FishName"].ToString();
+                float preferredDepth = float.Parse(reader["PreferredDepth"].ToString());
+                float preferredCastDistance = float.Parse(reader["PreferredCastDistance"].ToString());
+                string activeSeason = reader["ActiveSeason"].ToString();
+                string activeWeather = reader["ActiveWeather"].ToString();
+                string rarity = reader["Rarity"].ToString();
+                string preferredBait = reader["PreferredBait"].ToString();
+            
+                return new Fish(name, preferredDepth, preferredCastDistance, activeSeason, activeWeather, rarity, preferredBait);
+            }
+        }
+        return null;    // no fish found
+    }
 }

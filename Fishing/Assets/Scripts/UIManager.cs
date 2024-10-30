@@ -6,9 +6,9 @@ using UnityEngine.Serialization;
 
 public class UIManager : MonoBehaviour
 {
-    // private FishingUI _fishingUI;
-    
     public WeatherUI weatherUI;
+    public FishingUI fishingUI;
+    
     
     
     //private WeatherSystem _weatherSystem;
@@ -16,13 +16,20 @@ public class UIManager : MonoBehaviour
     // private IdleSkillsUI _idleSkillsUI;
     // private CatchUI _catchUI;
     //
-    public void Initialize(WeatherSystem weatherSystem)
+    public void Initialize(WeatherSystem weatherSystem, FishingSystem fishingSystem)
     {
         weatherUI?.Initialize(weatherSystem);
         if (weatherUI == null)
         {
             Debug.Log("WeatherUI isn't set.");
         }
+        fishingUI?.Initialize(fishingSystem);
+        if (fishingUI == null)
+        {
+            Debug.Log("FishingUI isn't set.");
+        }
+        
+        
      //   _weatherSystem = new WeatherSystem();
         
         // _fishingUI = new FishingUI();
@@ -33,7 +40,6 @@ public class UIManager : MonoBehaviour
         
         // Initialization
     
-        // _fishingUI.Initialize();
         //weatherUI.Initialize(_weatherSystem);
         // _idleSkillsUI.Initialize();
         // _catchUI.Initialize();

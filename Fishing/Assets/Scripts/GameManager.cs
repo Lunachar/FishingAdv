@@ -11,19 +11,19 @@ public class GameManager
     public void Initialize(UIManager uiManager)
     {
         Debug.Log("GM");
-        //_fishingSystem = new FishingSystem();
         _weatherSystem = new WeatherSystem();
         _weatherSystem.Initialize();
-        //_idleSkillSystem = new IdleSkillSystem();
         _databaseManager = new DatabaseManager();
+        _databaseManager.Initialize();
+        _fishingSystem = new FishingSystem(_databaseManager, _weatherSystem);
+        //_idleSkillSystem = new IdleSkillSystem();
 
         //_uiManager.Initialize();
         
+        _uiManager = uiManager;
+        _uiManager.Initialize(_weatherSystem, _fishingSystem);
         // _fishingSystem.Initialize();
         //_uiManager = new UIManager();
-        _uiManager = uiManager;
-        _uiManager.Initialize(_weatherSystem);
         // _idleSkillSystem.Initialize();
-        _databaseManager.Initialize();
     }
 }

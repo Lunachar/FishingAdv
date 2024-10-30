@@ -53,8 +53,9 @@ public class FishingUI : MonoBehaviour
 
     public void UpdateUI()
     {
-        _fishingSystem.SetCastDistance(CastDistanceSliderSet.value);
+        _fishingSystem.SetCastDistance(float.Parse(Text_SetCastValue.text));
         _fishingSystem.SetDepth(DepthSlider.value);
+        _fishingSystem.SetBait(_selectedBait);
     }
 
     private void Start()
@@ -151,6 +152,11 @@ public class FishingUI : MonoBehaviour
         _isMoving = !_isMoving;
         Debug.Log("Current Slider Value: " + CastDistanceSliderSet.value);
         UpdateButtonText();
+
+        if (!_isMoving)
+        {
+            UpdateUI();
+        }
     }
 
     private void UpdateButtonText()
