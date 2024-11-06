@@ -80,27 +80,37 @@ public class FishDatabaseManager
     {
         return new List<Fish>
         {
-            new Fish("Bass", 5f, 10f, "Summer", "Clear", "Common", "Worm"),
-            new Fish("Trout", 4f, 8f, "Spring", "Cloudy", "Common", "Insect"),
-            new Fish("Carp", 6f, 12f, "Autumn", "Drizzle", "Uncommon", "Dough"),
-            new Fish("Salmon", 7f, 15f, "Winter", "Rain", "Rare", "Minnow"),
-            new Fish("Catfish", 3f, 9f, "Summer", "Fog", "Common", "Worm"),
-            new Fish("Pike", 8f, 20f, "Spring", "Storm", "Rare", "Minnow"),
-            new Fish("Tuna", 10f, 25f, "Summer", "Windy", "Uncommon", "Shrimp"),
-            new Fish("Mackerel", 9f, 22f, "Autumn", "Clear", "Common", "Worm"),
-            new Fish("Herring", 2f, 5f, "Winter", "Snow", "Uncommon", "Insect"),
-            new Fish("Perch", 5f, 10f, "Spring", "Clear", "Common", "Dough"),
-            new Fish("Swordfish", 12f, 30f, "Summer", "Windy", "Rare", "Shrimp"),
-            new Fish("Shark", 15f, 35f, "Autumn", "Storm", "Rare", "Minnow"),
-            new Fish("Eel", 3f, 7f, "Winter", "Drizzle", "Uncommon", "Insect"),
-            new Fish("Barracuda", 10f, 28f, "Summer", "Clear", "Rare", "Shrimp"),
-            new Fish("Sturgeon", 6f, 18f, "Autumn", "Cloudy", "Uncommon", "Dough"),
-            new Fish("Flounder", 4f, 9f, "Spring", "Fog", "Common", "Worm"),
-            new Fish("Marlin", 14f, 32f, "Summer", "Rain", "Rare", "Shrimp"),
-            new Fish("Snapper", 5f, 11f, "Autumn", "Cloudy", "Common", "Insect"),
-            new Fish("Cod", 7f, 14f, "Winter", "Snow", "Common", "Worm"),
-            new Fish("Halibut", 9f, 19f, "Spring", "Clear", "Uncommon", "Minnow")
+            new Fish("Окунь",       5f,  10f, "Лето",   "Ясно",     "Обычная",  "Червь"),
+            new Fish("Скумбрия",    9f,  22f, "Осень",  "Ясно",     "Обычная",  "Червь"),
+            new Fish("Форель",      4f,   8f, "Весна",  "Облачно",  "Обычная",  "Насекомое"),
+            new Fish("Луциан",      5f,  11f, "Осень",  "Облачно",  "Обычная",  "Насекомое"),
+            new Fish("Сом",         3f,   9f, "Лето",   "Туман",    "Обычная",  "Червь"),
+            new Fish("Камбала",     4f,   9f, "Весна",  "Туман",    "Обычная",  "Червь"),
+            new Fish("Треска",      7f,  14f, "Зима",   "Снег",     "Обычная",  "Червь"),
+            new Fish("Линь",        6f,  10f, "Весна",  "Туман",    "Обычная",  "Тесто"),   // Новая рыба
+
+            new Fish("Сельдь",      2f,   5f, "Зима",   "Снег",     "Необычная", "Насекомое"),
+            new Fish("Угорь",       3f,   7f, "Зима",   "Мелкий дождь", "Необычная", "Насекомое"),
+            new Fish("Карп",        6f,  12f, "Осень",  "Мелкий дождь", "Необычная", "Тесто"),
+            new Fish("Осётр",       6f,  18f, "Осень",  "Облачно",  "Необычная", "Тесто"),
+            new Fish("Тунец",      10f,  25f, "Лето",   "Ветрено",  "Необычная", "Креветка"),
+            new Fish("Палтус",      9f,  19f, "Весна",  "Ясно",     "Необычная", "Мальки"),
+
+            new Fish("Щука",        8f,  20f, "Весна",  "Шторм",    "Редкая",   "Мальки"),
+            new Fish("Барракуда",  10f,  28f, "Лето",   "Ясно",     "Редкая",   "Креветка"),
+            new Fish("Сёмга",       7f,  15f, "Зима",   "Дождь",    "Редкая",   "Мальки"),
+            new Fish("Марлин",     14f,  32f, "Лето",   "Дождь",    "Редкая",   "Креветка"),
+            new Fish("Акула",      15f,  35f, "Осень",  "Шторм",    "Редкая",   "Мальки"),
+            new Fish("Меч-рыба",   12f,  30f, "Лето",   "Ветрено",  "Редкая",   "Креветка")
         };
+
+
+
+    }
+
+    public List<Fish> GetAllFishList()
+    {
+        return GetFishList();
     }
 
 

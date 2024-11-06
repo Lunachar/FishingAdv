@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class FishingSystem
@@ -16,17 +17,17 @@ public class FishingSystem
         _databaseManager = databaseManager;
         _weather = weather;
     }
-
-    public Fish LoadFishData(string fishName)
-    {
-        _currentFish = _databaseManager.LoadFishData(fishName);
-        return _currentFish;
-    }
-
-    public Fish GetCurrentFish()
-    {
-        return _currentFish;
-    }
+    
+    // public Fish LoadFishData(string fishName)
+    // {
+    //     _currentFish = _databaseManager.LoadFishData(fishName);
+    //     return _currentFish;
+    // }
+    //
+    // public Fish GetCurrentFish()
+    // {
+    //     return _currentFish;
+    // }
     
     public void SetCastDistance(float distance)
     {
@@ -43,18 +44,52 @@ public class FishingSystem
         _bait = bait;
     }
 
+    private Fish DeterminePotentialFish()
+    {
+        // get a list of fish that matches the parameters
+        List<Fish> potentialFishList = _databaseManager.GetFishMatchingParameters(_castDistance, _depth, _bait);
+        
+        if (potentialFishList.Count == 0)
+        {
+            return null; // no fish that matches the parameters has found
+        }
+        
+        // get a random fish from matched ones
+        return potentialFishList[UnityEngine.Random.Range(0, potentialFishList.Count)];
+    }
+
     public void StartFishing()
     {
-        float catchProbability = CalculateCatchProbability();
-        if (IsFishCaught(catchProbability))
+        // find which fish could be caught
+        Fish potentialFish = DeterminePotentialFish();
+        Debug.Log($"Distance: {_castDistance} \n" +
+                  $"Depth: {_depth} \n" +
+                  $"Bait: {_bait} \n" +
+                  $"Potential fish: {potentialFish}");
+        if (potentialFish != null)
         {
-            Fish caughtFish = DetermineFishCaught(catchProbability);
-            Debug.Log($"Fish caught: {caughtFish}");
-            // CatchCanvas UI update
+            _currentFish = potentialFish;
+            Debug.Log($"Fish found: {potentialFish.FishName}");
+
+            // find probability of catching current fish
+            float catchProbability = CalculateCatchProbability();
+            Debug.Log($"Catch probability: {catchProbability}");
+            if (IsFishCaught(catchProbability))
+            {
+                Debug.Log($"!!!Success!!!   Fish caught: {_currentFish.FishName}");
+                // TODO: 1. save caught fish
+                // TODO: 2. add fish to inventory
+                // TODO: 3. refresh interface
+            }
+            else
+            {
+                Debug.Log(" Oops!!!  Fish is not caught. Try again!");
+                // TODO: what to do if fish is not caught?
+            }
         }
         else
         {
-            Debug.Log("Fish is not caught. Try again!");
+            Debug.Log("No fish found. Try again!");
         }
     }
 
@@ -115,15 +150,24 @@ public class FishingSystem
         return UnityEngine.Random.value < probability;
     }
 
-    private Fish DetermineFishCaught(float catchProbability)
-    {
-        return _currentFish; 
-        //return new Fish("Обычная рыба", 1)
-    }
+    // private Fish DetermineFishCaught(float catchProbability)
+    // {
+    //     List<Fish> possibleFish = _databaseManager.GetFishByConditions(_castDistance, _depth, _bait);
+    //
+    //     if (possibleFish.Count == 0)
+    //     {
+    //         Debug.Log("No fish found!");
+    //         return null;
+    //     }
+    //     
+    //     int index = UnityEngine.Random.Range(0, possibleFish.Count);
+    //     return possibleFish[index];
+    // }
 
 
     public string GetCurrentBait()
     {
         throw new NotImplementedException();
     }
+
 }

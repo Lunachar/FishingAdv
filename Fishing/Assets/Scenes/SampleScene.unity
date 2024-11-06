@@ -2607,6 +2607,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weatherUI: {fileID: 1153275117}
+  fishingUI: {fileID: 664518264}
 --- !u!4 &1047275198
 Transform:
   m_ObjectHideFlags: 0
@@ -2824,8 +2825,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 14
-  m_fontSizeBase: 14
+  m_fontSize: 36
+  m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

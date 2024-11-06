@@ -37,6 +37,7 @@ public class FishingUI : MonoBehaviour
     private FishingSystem _fishingSystem; // Reference to the fishing system
     private string _selectedBait;         // Holds selected bait from dropdown
     private float _selectedDepth;         // Holds selected depth from depth slider
+    private float _selectedCastDistance;  // Holds selected cast distance from cast distance slider
 
     [Header("Slider Motion Setting")]
     public float speed = 2f;
@@ -51,10 +52,11 @@ public class FishingUI : MonoBehaviour
         _fishingSystem = fishingSystem;
     }
 
-    public void UpdateUI()
+    private void UpdateUI()
     {
-        _fishingSystem.SetCastDistance(float.Parse(Text_SetCastValue.text));
-        _fishingSystem.SetDepth(DepthSlider.value);
+        //_fishingSystem.SetCastDistance(float.Parse(Text_SetCastValue.text));
+        _fishingSystem.SetCastDistance(_selectedCastDistance);
+        _fishingSystem.SetDepth(_selectedDepth);
         _fishingSystem.SetBait(_selectedBait);
     }
 
@@ -77,6 +79,10 @@ public class FishingUI : MonoBehaviour
         BaitDropdown.ClearOptions();
         List<string> baitOptions = new List<string> { "Червь", "Насекомое", "Тесто", "Мальки", "Креветка", "Хлеб" };
         BaitDropdown.AddOptions(baitOptions);
+        
+        // BaitDropdown.options[0].text = "Червь";
+        // TODO  set default bait
+        // _fishingSystem.SetBait(BaitDropdown.options[BaitDropdown.value].text);
     }
 
     private void BaitDropdownValueChanged()
@@ -133,6 +139,7 @@ public class FishingUI : MonoBehaviour
         float transformedValue = TransformSliderValue(sliderValue);
 
         Text_SetCastValue.text = transformedValue.ToString("F2");
+        _selectedCastDistance = float.Parse(Text_SetCastValue.text);
     }
 
     private float TransformSliderValue(float sliderValue)
@@ -156,6 +163,7 @@ public class FishingUI : MonoBehaviour
         if (!_isMoving)
         {
             UpdateUI();
+            _fishingSystem.StartFishing();
         }
     }
 
