@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
 {
     public WeatherUI weatherUI;
     public FishingUI fishingUI;
+    public InventoryUI inventoryUI;
     
     
     
@@ -16,19 +17,21 @@ public class UIManager : MonoBehaviour
     // private IdleSkillsUI _idleSkillsUI;
     // private CatchUI _catchUI;
     //
-    public void Initialize(WeatherSystem weatherSystem, FishingSystem fishingSystem)
+    public void Initialize(WeatherSystem weatherSystem, FishingSystem fishingSystem, InventorySystem inventorySystem)
     {
         weatherUI?.Initialize(weatherSystem);
         if (weatherUI == null)
         {
             Debug.Log("WeatherUI isn't set.");
         }
+        
         fishingUI?.Initialize(fishingSystem);
         if (fishingUI == null)
         {
             Debug.Log("FishingUI isn't set.");
         }
         
+        inventoryUI?.UpdateInventoryUI(inventorySystem.GetInventory());
         
      //   _weatherSystem = new WeatherSystem();
         

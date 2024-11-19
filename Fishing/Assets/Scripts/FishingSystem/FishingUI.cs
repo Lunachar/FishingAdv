@@ -79,10 +79,8 @@ public class FishingUI : MonoBehaviour
         BaitDropdown.ClearOptions();
         List<string> baitOptions = new List<string> { "Червь", "Насекомое", "Тесто", "Мальки", "Креветка", "Хлеб" };
         BaitDropdown.AddOptions(baitOptions);
-        
-        // BaitDropdown.options[0].text = "Червь";
-        // TODO  set default bait
-        // _fishingSystem.SetBait(BaitDropdown.options[BaitDropdown.value].text);
+        _selectedBait = BaitDropdown.options[BaitDropdown.value].text;
+        UpdateUI();
     }
 
     private void BaitDropdownValueChanged()

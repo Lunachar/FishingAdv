@@ -12,6 +12,7 @@ public class Boot : MonoBehaviour
 
     private void Awake()
     {
+        Screen.orientation = ScreenOrientation.LandscapeLeft;
         Debug.Log("Boot");
        
         _gameManager = new GameManager();
