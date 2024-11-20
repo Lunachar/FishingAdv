@@ -35,21 +35,21 @@ public class DatabaseManager
         return _fishDatabaseManager.LoadFishData(fishName);
     }
 
-    public List<Fish> GetFishByConditions(float castDistance, float depth, string bait)
-    {
-        List<Fish> suitableFish= new List<Fish>();
-
-        foreach (Fish fish in _fishDatabaseManager.GetAllFishList())
-        {
-            if (Mathf.Abs(fish.PreferredCastDistance - castDistance) <= 5f &&
-                Mathf.Abs(fish.PreferredDepth - depth) <= 3f &&
-                fish.PreferredBait == bait)
-            {
-                suitableFish.Add(fish);
-            }
-        }
-        return suitableFish;
-    }
+    // public List<Fish> GetFishByConditions(float castDistance, float depth, string bait)
+    // {
+    //     List<Fish> suitableFish= new List<Fish>();
+    //
+    //     foreach (Fish fish in _fishDatabaseManager.GetAllFishList())
+    //     {
+    //         if (Mathf.Abs(fish.PreferredCastDistance - castDistance) <= 5f &&
+    //             Mathf.Abs(fish.PreferredDepth - depth) <= 3f &&
+    //             fish.PreferredBait == bait)
+    //         {
+    //             suitableFish.Add(fish);
+    //         }
+    //     }
+    //     return suitableFish;
+    // }
 
     public List<Fish> GetFishMatchingParameters(float castDistance, float depth, string bait)
     {

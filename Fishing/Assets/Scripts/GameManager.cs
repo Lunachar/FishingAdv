@@ -14,11 +14,16 @@ public class GameManager
         Debug.Log("GM");
         _weatherSystem = new WeatherSystem();
         _weatherSystem.Initialize();
+        
         _databaseManager = new DatabaseManager();
         _databaseManager.Initialize();
+        
         _fishingSystem = new FishingSystem(_databaseManager, _weatherSystem);
         _inventorySystem = new InventorySystem();
         _inventorySystem.Initialize();
+        _fishingSystem.SetInventorySystem(_inventorySystem);
+        
+        
         //_fishingSystem.Initialize();
         //_idleSkillSystem = new IdleSkillSystem();
 
@@ -26,6 +31,8 @@ public class GameManager
         
         _uiManager = uiManager;
         _uiManager.Initialize(_weatherSystem, _fishingSystem, _inventorySystem);
+        Debug.Log($"GM. is uiManager ok?: {_uiManager}");
+        _fishingSystem.SetUIManager(_uiManager);
         //_uiManager = new UIManager();
         // _idleSkillSystem.Initialize();
     }

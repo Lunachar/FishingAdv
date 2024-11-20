@@ -6,11 +6,10 @@ using UnityEngine.Serialization;
 
 public class UIManager : MonoBehaviour
 {
+    [Header("UI")]
     public WeatherUI weatherUI;
     public FishingUI fishingUI;
     public InventoryUI inventoryUI;
-    
-    
     
     //private WeatherSystem _weatherSystem;
     
@@ -49,8 +48,18 @@ public class UIManager : MonoBehaviour
     
     }
 
-    private void Update()
+    private void UpdateWeather()
     {
         weatherUI?.UpdateWeatherUI();
+    }
+
+    public void UpdateInventory(Dictionary<string, int> fishInventory)
+    {
+        inventoryUI?.UpdateInventoryUI(fishInventory);
+    }
+
+    public InventoryUI GetInventoryUI()
+    {
+        return inventoryUI;
     }
 }

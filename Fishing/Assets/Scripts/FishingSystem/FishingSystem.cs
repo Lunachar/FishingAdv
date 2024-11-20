@@ -11,11 +11,23 @@ public class FishingSystem
     private WeatherSystem _weather;
     private DatabaseManager _databaseManager;
     private Fish _currentFish;
+    private InventorySystem _inventorySystem;
+    private UIManager _uiManager;
 
     public FishingSystem(DatabaseManager databaseManager, WeatherSystem weather)
     {
         _databaseManager = databaseManager;
         _weather = weather;
+    }
+
+    public void SetInventorySystem(InventorySystem inventorySystem)
+    {
+        _inventorySystem = inventorySystem;
+    }
+    public void SetUIManager(UIManager uiManager)
+    {
+        _uiManager = uiManager;
+        Debug.Log($"FS. .SetUIManager: {_uiManager}");
     }
     
     public void SetCastDistance(float distance)
@@ -66,13 +78,20 @@ public class FishingSystem
             if (IsFishCaught(catchProbability))
             {
                 Debug.Log($"!!!Success!!!   Fish caught: {_currentFish.FishName}");
+                _inventorySystem.AddFish(_currentFish);
+                _uiManager.GetInventoryUI().ShowCatchResult(_currentFish, true);
+                _uiManager.UpdateInventory(_inventorySystem.GetInventory());
+                
                 // TODO: 1. save caught fish
                 // TODO: 2. add fish to inventory
                 // TODO: 3. refresh interface
+                // TODO: 4. if it is a first fish of a type, display big picture with salute, otherwise display small picture
+                // TODO: 5. every fish has a page in book where you can find more information, information is opening every time when fish of current type is caught
             }
             else
             {
                 Debug.Log(" Oops!!!  Fish is not caught. Try again!");
+                _uiManager.GetInventoryUI().ShowCatchResult(null, false);
                 // TODO: what to do if fish is not caught?
             }
         }

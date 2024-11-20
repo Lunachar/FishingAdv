@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Collections.Generic;
 using Mono.Data.Sqlite;
+using UnityEngine;
 
 
 public class FishDatabaseManager
@@ -87,7 +88,7 @@ public class FishDatabaseManager
             new Fish("Сом",         3f,   9f, "Лето",   "Туман",    "Обычная",  "Червь"),
             new Fish("Камбала",     4f,   9f, "Весна",  "Туман",    "Обычная",  "Червь"),
             new Fish("Треска",      7f,  14f, "Зима",   "Снег",     "Обычная",  "Червь"),
-            new Fish("Линь",        6f,  10f, "Весна",  "Туман",    "Обычная",  "Тесто"),   // Новая рыба
+            new Fish("Линь",        6f,  10f, "Весна",  "Туман",    "Обычная",  "Тесто"),   
 
             new Fish("Сельдь",      2f,   5f, "Зима",   "Снег",     "Необычная", "Насекомое"),
             new Fish("Угорь",       3f,   7f, "Зима",   "Мелкий дождь", "Необычная", "Насекомое"),
@@ -107,6 +108,30 @@ public class FishDatabaseManager
 
 
     }
+
+    private Dictionary<string, string> _fishNameMapping = new Dictionary<string, string>()
+    {
+        { "Окунь", "Bass" },
+        { "Скумбрия", "Mackerel" },
+        { "Форель", "Trout" },
+        { "Луциан", "Snapper" },
+        { "Сом", "Catfish" },
+        { "Камбала", "Flounder" },
+        { "Треска", "Cod" },
+        { "Линь", "Tench" },
+        { "Сельдь", "Herring" },
+        { "Угорь", "Eel" },
+        { "Карп", "Carp" },
+        { "Осётр", "Sturgeon" },
+        { "Тунец", "Tuna" },
+        { "Палтус", "Halibut" },
+        { "Щука", "Pike" },
+        { "Барракуда", "Barracuda" },
+        { "Сёмга", "Salmon" },
+        { "Марлин", "Marlin" },
+        { "Акула", "Shark" },
+        { "Меч-рыба", "Swordfish" }
+    };
 
     public List<Fish> GetAllFishList()
     {
@@ -133,7 +158,17 @@ public class FishDatabaseManager
                 string rarity = reader["Rarity"].ToString();
                 string preferredBait = reader["PreferredBait"].ToString();
             
-                return new Fish(name, preferredDepth, preferredCastDistance, activeSeason, activeWeather, rarity, preferredBait);
+                // correspond different languages names
+                string englishName = _fishNameMapping.ContainsKey(name) ? _fishNameMapping[name] : name;
+                
+                // load sprite from Resources folder
+                Sprite fishSprite = Resources.Load<Sprite>($"Pictures/FishSprites/{englishName}") ?? Resources.Load<Sprite>($"Pictures/FishSprites/Cod");
+
+                return new Fish(name, preferredDepth, preferredCastDistance, activeSeason, activeWeather, rarity,
+                    preferredBait)
+                {
+                    Sprite = fishSprite
+                };
             }
         }
         return null;    // no fish found

@@ -27,17 +27,17 @@ public class InventorySystem
     }
     
     
-    public void ShowCatchResult(Fish fish, bool isSuccessful)
-    {
-        if (isSuccessful)
-        {
-            AddFish(fish);
-            Debug.Log($"You catch: {fish.FishName}");
-            // ResultImage.Sprite = Fish.Sprite;
-        }
-        else
-        {
-            Debug.Log("You didn't catch anything");
-        }
-    }
+    // public void ShowCatchResult(Fish fish, bool isSuccessful)
+    // {
+    //     if (isSuccessful)
+    //     {
+    //         AddFish(fish);
+    //         Debug.Log($"You catch: {fish.FishName}");
+    //         // ResultImage.Sprite = Fish.Sprite;
+    //     }
+    //     else
+    //     {
+    //         Debug.Log("You didn't catch anything");
+    //     }
+    // }
 }
