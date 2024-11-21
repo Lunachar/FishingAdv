@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -10,18 +12,24 @@ public class InventoryUI : MonoBehaviour
     public TMP_Text InventoryText;
     public Image FishImage;
     public Sprite EmptyHookSprite;
+    public CanvasGroup FishImageCanvasGroup;
     public ParticleSystem SuccessEffect;
+    
+    [Header("Timing")]
+    public float displayDuration = 3f;
+    public float fadeDuration = 1f;
     
     [Header("Audio")]
     public AudioClip successClip;
     public AudioClip failClip;
-    public AudioSource _audioSource;
+    private AudioSource _audioSource;
     
     
 
     private void Start()
     {
-        //_audioSource = GetComponent<AudioSource>();
+        FishImageCanvasGroup.alpha = 0f;
+        _audioSource = FindObjectOfType<AudioSource>();
     }
 
     public void PlaySound(bool isSuccessful)
@@ -52,6 +60,7 @@ public class InventoryUI : MonoBehaviour
         {
             Debug.Log($"Successful catch {fish.FishName}");
             FishImage.sprite = fish.Sprite;
+            
             PlaySound(true);
             PlaySuccessEffect();
         }
@@ -60,6 +69,24 @@ public class InventoryUI : MonoBehaviour
             FishImage.sprite = EmptyHookSprite;
             PlaySound(false);
         }
+        StopAllCoroutines();
+        StartCoroutine(ShowAndFadeOut());
     }
 
+    private IEnumerator ShowAndFadeOut()
+    {
+        FishImageCanvasGroup.alpha = 1f;
+        
+        yield return new WaitForSeconds(displayDuration);
+        
+        float elapsedTime = 0f;
+        while (elapsedTime < fadeDuration)
+        {
+            FishImageCanvasGroup.alpha = Mathf.Lerp(1f, 0f, elapsedTime / fadeDuration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        FishImageCanvasGroup.alpha = 0f;  // Reset the alpha
+    }
 }

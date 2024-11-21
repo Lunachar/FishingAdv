@@ -1921,7 +1921,7 @@ Canvas:
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
-  m_OverrideSorting: 0
+  m_OverrideSorting: 1
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
@@ -2897,8 +2897,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -280704565
+  m_SortingLayer: 2
   m_SortingOrder: 1
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -3122,7 +3122,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.99215686, g: 0, b: 0.018663215, a: 1}
+      maxColor: {r: 0.8962264, g: 0.8962264, b: 0.8962264, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -4266,7 +4266,7 @@ ParticleSystem:
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 0, b: 0.96763754, a: 1}
-        key1: {r: 0.14427686, g: 1, b: 0, a: 0.6901961}
+        key1: {r: 0.14427686, g: 1, b: 0, a: 1}
         key2: {r: 0, g: 0.016898155, b: 1, a: 0}
         key3: {r: 1, g: 1, b: 1, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -8546,6 +8546,7 @@ GameObject:
   - component: {fileID: 1555324391}
   - component: {fileID: 1555324392}
   - component: {fileID: 1555324393}
+  - component: {fileID: 1555324394}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -8569,8 +8570,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 250.28, y: 64.954}
-  m_SizeDelta: {x: 419.4421, y: 270.0927}
+  m_AnchoredPosition: {x: -488, y: 363}
+  m_SizeDelta: {x: 1203.711, y: 677.5049}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1555324392
 CanvasRenderer:
@@ -8593,7 +8594,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -8610,6 +8611,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &1555324394
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1555324390}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1583533842
 GameObject:
   m_ObjectHideFlags: 0
@@ -8809,8 +8822,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -266, y: 25}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: -222.7124, y: -0.4633026}
+  m_SizeDelta: {x: 383.3355, y: 345.3739}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1618141134
 CanvasRenderer:
@@ -9221,7 +9234,7 @@ Canvas:
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
-  m_OverrideSorting: 0
+  m_OverrideSorting: 1
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
@@ -9245,10 +9258,12 @@ MonoBehaviour:
   InventoryText: {fileID: 1618141135}
   FishImage: {fileID: 1555324393}
   EmptyHookSprite: {fileID: 21300000, guid: b2a922ec7b4c74949b694ae415bade39, type: 3}
+  FishImageCanvasGroup: {fileID: 1555324394}
   SuccessEffect: {fileID: 1306424101}
+  displayDuration: 3
+  fadeDuration: 1
   successClip: {fileID: 8300000, guid: 3c82fa4f587d12d40b980de0089b2e6c, type: 3}
   failClip: {fileID: 8300000, guid: 3c82fa4f587d12d40b980de0089b2e6c, type: 3}
-  _audioSource: {fileID: 519420033}
 --- !u!1 &1802137960
 GameObject:
   m_ObjectHideFlags: 0
@@ -9607,7 +9622,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2007178173
 RectTransform:
   m_ObjectHideFlags: 0
