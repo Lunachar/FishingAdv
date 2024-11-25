@@ -9257,7 +9257,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InventoryText: {fileID: 1618141135}
   FishImage: {fileID: 1555324393}
-  EmptyHookSprite: {fileID: 21300000, guid: b2a922ec7b4c74949b694ae415bade39, type: 3}
+  EmptyHookSprite: {fileID: 21300000, guid: 11b935ca8c8dd5947bda6b3c71048086, type: 3}
   FishImageCanvasGroup: {fileID: 1555324394}
   SuccessEffect: {fileID: 1306424101}
   displayDuration: 3

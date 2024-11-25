@@ -78,36 +78,34 @@ public class FishDatabaseManager
     }
 
     private List<Fish> GetFishList()
+{
+    return new List<Fish>
     {
-        return new List<Fish>
-        {
-            new Fish("Окунь",       5f,  10f, "Лето",   "Ясно",     "Обычная",  "Червь"),
-            new Fish("Скумбрия",    9f,  22f, "Осень",  "Ясно",     "Обычная",  "Червь"),
-            new Fish("Форель",      4f,   8f, "Весна",  "Облачно",  "Обычная",  "Насекомое"),
-            new Fish("Луциан",      5f,  11f, "Осень",  "Облачно",  "Обычная",  "Насекомое"),
-            new Fish("Сом",         3f,   9f, "Лето",   "Туман",    "Обычная",  "Червь"),
-            new Fish("Камбала",     4f,   9f, "Весна",  "Туман",    "Обычная",  "Червь"),
-            new Fish("Треска",      7f,  14f, "Зима",   "Снег",     "Обычная",  "Червь"),
-            new Fish("Линь",        6f,  10f, "Весна",  "Туман",    "Обычная",  "Тесто"),   
+        new Fish("Окунь",       5f,  10f, "Лето",   "Ясно",     "Обычная",  "Червь")       { Sprite = Resources.Load<Sprite>("Pictures/FishSprites/Bass") },
+        new Fish("Скумбрия",    9f,  22f, "Осень",  "Ясно",     "Обычная",  "Червь")       { Sprite = Resources.Load<Sprite>("Pictures/FishSprites/Mackerel") },
+        new Fish("Форель",      4f,   8f, "Весна",  "Облачно",  "Обычная",  "Насекомое")   { Sprite = Resources.Load<Sprite>("Pictures/FishSprites/Trout") },
+        new Fish("Луциан",      5f,  11f, "Осень",  "Облачно",  "Обычная",  "Насекомое")   { Sprite = Resources.Load<Sprite>("Pictures/FishSprites/Snapper") },
+        new Fish("Сом",         3f,   9f, "Лето",   "Туман",    "Обычная",  "Червь")       { Sprite = Resources.Load<Sprite>("Pictures/FishSprites/Catfish") },
+        new Fish("Камбала",     4f,   9f, "Весна",  "Туман",    "Обычная",  "Червь")       { Sprite = Resources.Load<Sprite>("Pictures/FishSprites/Flounder") },
+        new Fish("Треска",      7f,  14f, "Зима",   "Снег",     "Обычная",  "Червь")       { Sprite = Resources.Load<Sprite>("Pictures/FishSprites/Cod") },
+        new Fish("Линь",        6f,  10f, "Весна",  "Туман",    "Обычная",  "Тесто")       { Sprite = Resources.Load<Sprite>("Pictures/FishSprites/Tench") },
 
-            new Fish("Сельдь",      2f,   5f, "Зима",   "Снег",     "Необычная", "Насекомое"),
-            new Fish("Угорь",       3f,   7f, "Зима",   "Мелкий дождь", "Необычная", "Насекомое"),
-            new Fish("Карп",        6f,  12f, "Осень",  "Мелкий дождь", "Необычная", "Тесто"),
-            new Fish("Осётр",       6f,  18f, "Осень",  "Облачно",  "Необычная", "Тесто"),
-            new Fish("Тунец",      10f,  25f, "Лето",   "Ветрено",  "Необычная", "Креветка"),
-            new Fish("Палтус",      9f,  19f, "Весна",  "Ясно",     "Необычная", "Мальки"),
+        new Fish("Сельдь",      2f,   5f, "Зима",   "Снег",     "Необычная", "Насекомое")  { Sprite = Resources.Load<Sprite>("Pictures/FishSprites/Herring") },
+        new Fish("Угорь",       3f,   7f, "Зима",   "Мелкий дождь", "Необычная", "Насекомое") { Sprite = Resources.Load<Sprite>("Pictures/FishSprites/Eel") },
+        new Fish("Карп",        6f,  12f, "Осень",  "Мелкий дождь", "Необычная", "Тесто")  { Sprite = Resources.Load<Sprite>("Pictures/FishSprites/Carp") },
+        new Fish("Осётр",       6f,  18f, "Осень",  "Облачно",  "Необычная", "Тесто")      { Sprite = Resources.Load<Sprite>("Pictures/FishSprites/Sturgeon") },
+        new Fish("Тунец",      10f,  25f, "Лето",   "Ветрено",  "Необычная", "Креветка")   { Sprite = Resources.Load<Sprite>("Pictures/FishSprites/Tuna") },
+        new Fish("Палтус",      9f,  19f, "Весна",  "Ясно",     "Необычная", "Мальки")     { Sprite = Resources.Load<Sprite>("Pictures/FishSprites/Halibut") },
 
-            new Fish("Щука",        8f,  20f, "Весна",  "Шторм",    "Редкая",   "Мальки"),
-            new Fish("Барракуда",  10f,  28f, "Лето",   "Ясно",     "Редкая",   "Креветка"),
-            new Fish("Сёмга",       7f,  15f, "Зима",   "Дождь",    "Редкая",   "Мальки"),
-            new Fish("Марлин",     14f,  32f, "Лето",   "Дождь",    "Редкая",   "Креветка"),
-            new Fish("Акула",      15f,  35f, "Осень",  "Шторм",    "Редкая",   "Мальки"),
-            new Fish("Меч-рыба",   12f,  30f, "Лето",   "Ветрено",  "Редкая",   "Креветка")
-        };
+        new Fish("Щука",        8f,  20f, "Весна",  "Шторм",    "Редкая",   "Мальки")      { Sprite = Resources.Load<Sprite>("Pictures/FishSprites/Pike") },
+        new Fish("Барракуда",  10f,  28f, "Лето",   "Ясно",     "Редкая",   "Креветка")    { Sprite = Resources.Load<Sprite>("Pictures/FishSprites/Barracuda") },
+        new Fish("Сёмга",       7f,  15f, "Зима",   "Дождь",    "Редкая",   "Мальки")      { Sprite = Resources.Load<Sprite>("Pictures/FishSprites/Salmon") },
+        new Fish("Марлин",     14f,  32f, "Лето",   "Дождь",    "Редкая",   "Креветка")    { Sprite = Resources.Load<Sprite>("Pictures/FishSprites/Marlin") },
+        new Fish("Акула",      15f,  35f, "Осень",  "Шторм",    "Редкая",   "Мальки")      { Sprite = Resources.Load<Sprite>("Pictures/FishSprites/Shark") },
+        new Fish("Меч-рыба",   12f,  30f, "Лето",   "Ветрено",  "Редкая",   "Креветка")    { Sprite = Resources.Load<Sprite>("Pictures/FishSprites/Swordfish") }
+    };
+}
 
-
-
-    }
 
     private Dictionary<string, string> _fishNameMapping = new Dictionary<string, string>()
     {
