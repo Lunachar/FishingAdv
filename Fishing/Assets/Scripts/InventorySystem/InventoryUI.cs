@@ -19,23 +19,16 @@ public class InventoryUI : MonoBehaviour
     public float displayDuration = 3f;
     public float fadeDuration = 1f;
     
-    [Header("Audio")]
-    public AudioClip successClip;
-    public AudioClip failClip;
-    private AudioSource _audioSource;
-    
-    
 
     private void Start()
     {
         FishImageCanvasGroup.alpha = 0f;
-        _audioSource = FindObjectOfType<AudioSource>();
     }
 
-    public void PlaySound(bool isSuccessful)
-    {
-        _audioSource.PlayOneShot(isSuccessful ? successClip : failClip);
-    }
+    // public void PlaySound(bool isSuccessful)
+    // {
+    //     _audioSource.PlayOneShot(isSuccessful ? successClip : failClip);
+    // }
     public void UpdateInventoryUI(Dictionary<string, int> fishInventory)
     {
         InventoryText.text = ""; // Clear the text
@@ -60,14 +53,14 @@ public class InventoryUI : MonoBehaviour
         {
             Debug.Log($"Successful catch {fish.FishName}");
             FishImage.sprite = fish.Sprite;
-            
-            PlaySound(true);
+
+            AudioManager.Instance.PlaySoundEffect(AudioManager.Instance.successClip);
             PlaySuccessEffect();
         }
         else
         {
             FishImage.sprite = EmptyHookSprite;
-            PlaySound(false);
+            AudioManager.Instance.PlaySoundEffect(AudioManager.Instance.failClip);
         }
         StopAllCoroutines();
         StartCoroutine(ShowAndFadeOut());
