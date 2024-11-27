@@ -53,8 +53,12 @@ public class InventoryUI : MonoBehaviour
         {
             Debug.Log($"Successful catch {fish.FishName}");
             FishImage.sprite = fish.Sprite;
-
-            AudioManager.Instance.PlaySoundEffect(AudioManager.Instance.successClip);
+            AudioManager.Instance.PlaySoundSequence(new List<AudioClip>
+            {
+                AudioManager.Instance.successClip,
+                AudioManager.Instance.fishFlappingTailClip
+            });
+            
             PlaySuccessEffect();
         }
         else

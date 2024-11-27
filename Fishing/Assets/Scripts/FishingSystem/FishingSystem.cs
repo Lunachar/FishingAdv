@@ -98,6 +98,7 @@ public class FishingSystem
         else
         {
             Debug.Log("No fish found. Try again!");
+            AudioManager.Instance.PlaySoundEffect(AudioManager.Instance.noFishClip);
         }
     }
 
