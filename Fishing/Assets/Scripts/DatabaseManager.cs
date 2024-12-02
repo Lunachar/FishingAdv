@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -68,5 +69,18 @@ public class DatabaseManager
             Debug.Log($"MATCHING {fish.FishName}");
         }
         return matchingFish;
+    }
+
+    public static PlayerData LoadPlayerData()
+    {
+        using (var connection = new SqliteConnection("URI=file:fish.db")
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public static void SavePlayerData(PlayerData playerData)
+    {
+        throw new System.NotImplementedException();
     }
 }

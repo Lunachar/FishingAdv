@@ -3,11 +3,18 @@ using UnityEngine;
 public class GameManager
 {
     private UIManager _uiManager;
+    
     private FishingSystem _fishingSystem;
     private WeatherSystem _weatherSystem;
     private InventorySystem _inventorySystem;
     private IdleSkillSystem _idleSkillSystem;
+    
     private DatabaseManager _databaseManager;
+    private PlayerState _playerState;
+    private PlayerProgressManager _playerProgressManager;
+
+    private int _coins;
+    private int _medals;
 
     public void Initialize(UIManager uiManager)
     {
