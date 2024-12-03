@@ -154,6 +154,7 @@ public class FishingUI : MonoBehaviour
 
     private void ToggleSliderMovement()
     {
+        GlobalManager.Instance.DeductEnergy(1);
         _isMoving = !_isMoving;
         Debug.Log("Current Slider Value: " + CastDistanceSliderSet.value);
         UpdateButtonText();

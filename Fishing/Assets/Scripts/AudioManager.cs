@@ -57,10 +57,8 @@ public class AudioManager : MonoBehaviour
 
     private void PlayMusic(AudioClip audioClip)
     {
-        if (_musicSource.isPlaying)
-        {
-            _musicSource.Stop();
-        }
+        if (_musicSource.clip == audioClip && _musicSource.isPlaying) return;
+        
         _musicSource.clip = audioClip;
         _musicSource.loop = true;
         _musicSource.Play();

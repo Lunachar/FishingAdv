@@ -280,9 +280,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 200871623}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 039de40ef5914334c8f5097e2d31261f, type: 3}
+  m_Script: {fileID: 11500000, guid: 3953488660b0c55408c0b322ff2bd642, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NewGameButton: {fileID: 1041537898}
+  ContinueButton: {fileID: 572970488}
 --- !u!1 &327303017
 GameObject:
   m_ObjectHideFlags: 0
@@ -434,8 +436,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u041D\u041E\u0412\u0410\u042F \u0418\u0413\u0420\u0410"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 4c467ff119757384c8751629da2a0d88, type: 2}
-  m_sharedMaterial: {fileID: -8201946928572738395, guid: 4c467ff119757384c8751629da2a0d88, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6ca496bf52ada2944bfd71f6513fc538, type: 2}
+  m_sharedMaterial: {fileID: -5869315094770066265, guid: 6ca496bf52ada2944bfd71f6513fc538, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -465,7 +467,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 17
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -699,10 +701,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u041F\u0440\u043E\u0434\u043E\u043B\u0436\u0438\u0442\u044C"
+  m_text: "\u041F\u0420\u041E\u0414\u041E\u041B\u0416\u0418\u0422\u042C"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6ca496bf52ada2944bfd71f6513fc538, type: 2}
+  m_sharedMaterial: {fileID: -5869315094770066265, guid: 6ca496bf52ada2944bfd71f6513fc538, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1062,8 +1064,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2081059392}
   - component: {fileID: 2081059391}
+  - component: {fileID: 2081059393}
   m_Layer: 0
-  m_Name: AudioManager
+  m_Name: Managers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1103,6 +1106,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2081059393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2081059390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 039de40ef5914334c8f5097e2d31261f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
