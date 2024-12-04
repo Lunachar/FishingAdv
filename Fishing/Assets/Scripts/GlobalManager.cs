@@ -6,24 +6,25 @@ using UnityEngine.SceneManagement;
 public class GlobalManager : MonoBehaviour
 {
     public static GlobalManager Instance;
-    
+
     // Player's common parameters
     public PlayerState PlayerState { get; private set; }
     public int Coins { get; private set; }
     public int Medals { get; private set; }
     public int Energy { get; private set; }
-    
+
     // Weater and Season
     public string CurrentWeather { get; private set; }
     public string CurrentSeason { get; private set; }
-    
+
     // Inventory
     public Dictionary<string, int> Inventory { get; private set; } = new Dictionary<string, int>();
-    
+
     private PlayerProgressManager _progressManager;
     private ResourcesUI _resourcesUI;
-    
-    
+    private InventoryUI _inventoryUI;
+
+
     private void Awake()
     {
         if (Instance == null)
@@ -48,7 +49,7 @@ public class GlobalManager : MonoBehaviour
     private void Initialize()
     {
         _progressManager = new PlayerProgressManager();
-        
+
         var (playerState, coins, medals, energy, weather, season, inventory) = _progressManager.LoadProgress();
         if (playerState != null)
         {
@@ -71,7 +72,7 @@ public class GlobalManager : MonoBehaviour
         PlayerState = new PlayerState()
         {
             Level = 1,
-            CurrentExperience= 0,
+            CurrentExperience = 0,
             ExperienceToNextLevel = 10
         };
         Coins = 0;
@@ -80,9 +81,8 @@ public class GlobalManager : MonoBehaviour
         CurrentWeather = "Ясно";
         CurrentSeason = "Лето";
         Inventory.Clear();
-        
+
         SaveProgress();
-        
     }
 
 
@@ -91,10 +91,34 @@ public class GlobalManager : MonoBehaviour
         StartNewGameInternal();
         SceneManager.LoadScene("GameScene");
     }
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        _resourcesUI = FindObjectOfType<ResourcesUI>();
-        UpdateResourcesUI();
+        if (scene.name == "GameScene")
+        {
+            _inventoryUI = FindObjectOfType<InventoryUI>();
+
+            if (_inventoryUI != null)
+            {
+                _inventoryUI.UpdateInventoryUI(Inventory);
+            }
+            else
+            {
+                Debug.Log("InventoryUI not found");
+            }
+
+            _resourcesUI = FindObjectOfType<ResourcesUI>();
+            if (_resourcesUI != null)
+            {
+                UpdateResourcesUI();
+            }
+            else
+            {
+                Debug.Log("ResourcesUI not found");
+            }
+        }
+
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     public void SaveProgress()
@@ -109,21 +133,26 @@ public class GlobalManager : MonoBehaviour
         SaveProgress();
     }
 
-    public void UpdateInventory(string item, int count)
+    public void UpdateInventory(Dictionary<string, int> loadedInventory)
     {
-        if (Inventory.ContainsKey(item))
+        foreach (var item in loadedInventory)
         {
-            Inventory[item] += count;
+            if (Inventory.ContainsKey(item.Key))
+            {
+                Inventory[item.Key] += item.Value;
+            }
+            else
+            {
+                Inventory.Add(item.Key, item.Value);
+            }
         }
-        else
-        {
-            Inventory.Add(item, count);
-        }
+
         SaveProgress();
     }
 
     public void ContinueGame()
     {
+        SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.LoadScene("GameScene");
     }
 
@@ -155,7 +184,7 @@ public class GlobalManager : MonoBehaviour
 
     public void DeductEnergy(int energy)
     {
-        Energy = Mathf.Max(Energy - energy, 0);
+        Energy -= energy;
         SaveProgress();
         UpdateResourcesUI();
     }
@@ -168,8 +197,9 @@ public class GlobalManager : MonoBehaviour
         {
             PlayerState.Level++;
             PlayerState.CurrentExperience -= PlayerState.ExperienceToNextLevel;
-            PlayerState.ExperienceToNextLevel += Mathf.CeilToInt(PlayerState.ExperienceToNextLevel * 0.5f);
+            PlayerState.ExperienceToNextLevel += PlayerState.ExperienceToNextLevel;
         }
+
         SaveProgress();
         UpdateResourcesUI();
     }

@@ -16,10 +16,12 @@ public class PlayerProgressManager
         if (!File.Exists("PlayerProgress.sqlite"))
         {
             SqliteConnection.CreateFile("PlayerProgress.sqlite");
-            using (var connection = new SqliteConnection(_connectionString))
-            {
-                connection.Open();
-                string sql = @"CREATE TABLE IF NOT EXISTS PlayerProgress (
+        }
+
+        using (var connection = new SqliteConnection(_connectionString))
+        {
+            connection.Open();
+            string sqlPlayerProgress = @"CREATE TABLE IF NOT EXISTS PlayerProgress (
                                 PlayerId INTEGER PRIMARY KEY,
                                 Level INTEGER NOT NULL,
                                 CurrentExperience INTEGER NOT NULL,
@@ -29,18 +31,18 @@ public class PlayerProgressManager
                                 Energy INTEGER NOT NULL,
                                 Weather TEXT NOT NULL,
                                 Season TEXT NOT NULL)";
-                SqliteCommand command = new SqliteCommand(sql, connection);
-                command.ExecuteNonQuery();
+            SqliteCommand command = new SqliteCommand(sqlPlayerProgress, connection);
+            command.ExecuteNonQuery();
 
-                string sqlInventory = @"CREATE TABLE IF NOT EXISTS Inventory (
+            string sqlInventory = @"CREATE TABLE IF NOT EXISTS Inventory (
                                         PlayerId INTEGER NOT NULL,                                        
                                         ItemName TEXT PRIMARY KEY,
                                         Count INTEGER NOT NULL)";
-                SqliteCommand commandInventory = new SqliteCommand(sqlInventory, connection);
-                commandInventory.ExecuteNonQuery();
-            }
+            SqliteCommand commandInventory = new SqliteCommand(sqlInventory, connection);
+            commandInventory.ExecuteNonQuery();
         }
     }
+
 
     public void SaveProgress(PlayerState playerState, int coins, int medals, int energy, string weather, string season,
         Dictionary<string, int> inventory)
@@ -151,6 +153,7 @@ public class PlayerProgressManager
                 inventory.Add(itemName, count);
             }
         }
+
         return inventory;
     }
 }

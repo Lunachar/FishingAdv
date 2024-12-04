@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 2866257}
   - component: {fileID: 2866256}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: EngText (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11683,7 +11683,7 @@ GameObject:
   - component: {fileID: 1452490949}
   - component: {fileID: 1452490948}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: CnsText (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14763,7 +14763,7 @@ GameObject:
   - component: {fileID: 2094931768}
   - component: {fileID: 2094931767}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: MedText (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

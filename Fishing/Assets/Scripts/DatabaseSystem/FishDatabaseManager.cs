@@ -33,7 +33,7 @@ public class FishDatabaseManager
                                 ActiveWeather TEXT,
                                 Rarity TEXT,
                                 PreferredBait TEXT,
-                                Price INTEGER,
+                                Coins INTEGER,
                                 Medals INTEGER,
                                 NeededSkill INTEGER,
                                 GatheredExperience INTEGER)";
@@ -65,8 +65,8 @@ public class FishDatabaseManager
             foreach (var fish in fishList)
             {
                 string sql =
-                    @"INSERT INTO Fish (FishName, PreferredDepth, PreferredCastDistance, ActiveSeason, ActiveWeather, Rarity, PreferredBait)
-                               VALUES (@FishName, @PreferredDepth, @PreferredCastDistance, @ActiveSeason, @ActiveWeather, @Rarity, @PreferredBait)";
+                    @"INSERT INTO Fish (FishName, PreferredDepth, PreferredCastDistance, ActiveSeason, ActiveWeather, Rarity, PreferredBait, Coins, Medals, NeededSkill, GatheredExperience)
+                               VALUES (@FishName, @PreferredDepth, @PreferredCastDistance, @ActiveSeason, @ActiveWeather, @Rarity, @PreferredBait, @Coins, @Medals, @NeededSkill, @GatheredExperience)";
 
                 SqliteCommand command = new SqliteCommand(sql, connection);
                 command.Parameters.AddWithValue("@FishName", fish.FishName);
@@ -76,6 +76,10 @@ public class FishDatabaseManager
                 command.Parameters.AddWithValue("@ActiveWeather", fish.ActiveWeather);
                 command.Parameters.AddWithValue("@Rarity", fish.Rarity);
                 command.Parameters.AddWithValue("@PreferredBait", fish.PreferredBait);
+                command.Parameters.AddWithValue("@Coins", fish.Coins);
+                command.Parameters.AddWithValue("@Medals", fish.Medals);
+                command.Parameters.AddWithValue("@NeededSkill", fish.NeededSkill);
+                command.Parameters.AddWithValue("@GatheredExperience", fish.GatheredExperience);
                 command.ExecuteNonQuery();
             }
         }
@@ -111,7 +115,7 @@ public List<Fish> GetFishList()
 }
 
 private Fish CreateFish(string name, float depth, float distance, string season, string weather, string rarity, string bait, 
-    int price, int medals, int skillLevel)
+    int coins, int medals, int skillLevel)
 {
     float baseSkill = 1f;
     float baseExperience = 5f;
@@ -121,7 +125,7 @@ private Fish CreateFish(string name, float depth, float distance, string season,
     int neededSkill = (int)(baseSkill * Mathf.Pow(skillMultiplier, skillLevel));
     int gatheredExperience = (int)(baseExperience * Mathf.Pow(experienceMultiplier, skillLevel));
 
-    return new Fish(name, depth, distance, season, weather, rarity, bait, price, medals, neededSkill,
+    return new Fish(name, depth, distance, season, weather, rarity, bait, coins, medals, neededSkill,
         gatheredExperience)
     {
         Sprite = Resources.Load<Sprite>($"Pictures/FishSprites/{TranslateNameToEnglish(name)}")
