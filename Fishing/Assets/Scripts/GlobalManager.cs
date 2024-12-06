@@ -7,23 +7,16 @@ public class GlobalManager : MonoBehaviour
 {
     public static GlobalManager Instance;
 
-    // Player's common parameters
-    public PlayerState PlayerState { get; private set; }
-    public int Coins { get; private set; }
-    public int Medals { get; private set; }
-    public int Energy { get; private set; }
+    public PlayerManager PlayerManager { get; private set; }
+    public InventoryManager InventoryManager { get; private set; }
+    public WorldStateManager WorldStateManager { get; private set; }
 
-    // Weater and Season
-    public string CurrentWeather { get; private set; }
-    public string CurrentSeason { get; private set; }
-
-    // Inventory
-    public Dictionary<string, int> Inventory { get; private set; } = new Dictionary<string, int>();
+    public ResourcesUI ResourcesUI { get; private set; }
+    public InventoryUI InventoryUI { get; private set; }
 
     private PlayerProgressManager _progressManager;
-    private ResourcesUI _resourcesUI;
-    private InventoryUI _inventoryUI;
 
+    private bool _gameSystemsInitialized = false;
 
     private void Awake()
     {
@@ -51,44 +44,44 @@ public class GlobalManager : MonoBehaviour
         _progressManager = new PlayerProgressManager();
 
         var (playerState, coins, medals, energy, weather, season, inventory) = _progressManager.LoadProgress();
-        if (playerState != null)
-        {
-            PlayerState = playerState;
-            Coins = coins;
-            Medals = medals;
-            Energy = energy;
-            CurrentWeather = weather;
-            CurrentSeason = season;
-            Inventory = inventory;
-        }
-        else
-        {
-            StartNewGameInternal();
-        }
+
+        PlayerManager = gameObject.AddComponent<PlayerManager>();
+        PlayerManager.Initialize(playerState, coins, medals, energy);
+
+        InventoryManager = gameObject.AddComponent<InventoryManager>();
+        InventoryManager.Initialize(inventory);
+
+        WorldStateManager = gameObject.AddComponent<WorldStateManager>();
+        WorldStateManager.Initialize(weather, season);
     }
 
-    private void StartNewGameInternal()
-    {
-        PlayerState = new PlayerState()
-        {
-            Level = 1,
-            CurrentExperience = 0,
-            ExperienceToNextLevel = 10
-        };
-        Coins = 0;
-        Medals = 0;
-        Energy = 10;
-        CurrentWeather = "Ясно";
-        CurrentSeason = "Лето";
-        Inventory.Clear();
-
-        SaveProgress();
-    }
+    // private void StartNewGameInternal()
+    // {
+    //     PlayerState = new PlayerState()
+    //     {
+    //         Level = 1,
+    //         CurrentExperience = 0,
+    //         ExperienceToNextLevel = 10
+    //     };
+    //     Coins = 0;
+    //     Medals = 0;
+    //     Energy = 10;
+    //     CurrentWeather = "Ясно";
+    //     CurrentSeason = "Лето";
+    //     Inventory.Clear();
+    //
+    //     SaveProgress();
+    // }
 
 
     public void StartNewGame()
     {
-        StartNewGameInternal();
+        PlayerManager.Initialize(new PlayerState { Level = 1, CurrentExperience = 0, ExperienceToNextLevel = 10 }, 0, 0,
+            10);
+        InventoryManager.Initialize(new Dictionary<string, int>());
+        WorldStateManager.Initialize("Ясно", "Лето");
+
+        SaveProgress();
         SceneManager.LoadScene("GameScene");
     }
 
@@ -96,57 +89,63 @@ public class GlobalManager : MonoBehaviour
     {
         if (scene.name == "GameScene")
         {
-            _inventoryUI = FindObjectOfType<InventoryUI>();
+            ResourcesUI = FindObjectOfType<ResourcesUI>();
+            InventoryUI = FindObjectOfType<InventoryUI>();
 
-            if (_inventoryUI != null)
+            UpdateResourcesUI();
+            UpdateInventoryUI();
+
+
+            if (InventoryUI != null)
             {
-                _inventoryUI.UpdateInventoryUI(Inventory);
-            }
-            else
-            {
-                Debug.Log("InventoryUI not found");
+                InventoryUI.UpdateInventoryUI(InventoryManager.GetInventory());
             }
 
-            _resourcesUI = FindObjectOfType<ResourcesUI>();
-            if (_resourcesUI != null)
+            if (ResourcesUI != null)
             {
                 UpdateResourcesUI();
             }
-            else
-            {
-                Debug.Log("ResourcesUI not found");
-            }
-        }
 
-        SceneManager.sceneLoaded -= OnSceneLoaded;
+            if (!_gameSystemsInitialized)
+            {
+                InitializeGameSystems();
+                _gameSystemsInitialized = true;
+            }
+
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
     }
+
+    private void InitializeGameSystems()
+    {
+        var weatherSystem = new WeatherSystem();
+        weatherSystem.Initialize();
+        
+        var databaseManager = new DatabaseManager();
+        databaseManager.Initialize();
+        
+        var fishingSystem = new FishingSystem(databaseManager, weatherSystem);
+        fishingSystem.SetInventorySystem(InventoryManager);
+    }
+
 
     public void SaveProgress()
     {
-        _progressManager.SaveProgress(PlayerState, Coins, Medals, Energy, CurrentWeather, CurrentSeason, Inventory);
+        _progressManager.SaveProgress(
+            PlayerManager.PlayerState,
+            PlayerManager.Coins,
+            PlayerManager.Medals,
+            PlayerManager.Energy,
+            WorldStateManager.CurrentWeather,
+            WorldStateManager.CurrentSeason,
+            InventoryManager.GetInventory()
+        );
     }
 
     public void UpdateWeatherAndSeason(string weather, string season)
     {
-        CurrentWeather = weather;
-        CurrentSeason = season;
-        SaveProgress();
-    }
-
-    public void UpdateInventory(Dictionary<string, int> loadedInventory)
-    {
-        foreach (var item in loadedInventory)
-        {
-            if (Inventory.ContainsKey(item.Key))
-            {
-                Inventory[item.Key] += item.Value;
-            }
-            else
-            {
-                Inventory.Add(item.Key, item.Value);
-            }
-        }
-
+        WorldStateManager.UpdateWeather(weather);
+        WorldStateManager.UpdateSeason(season);
         SaveProgress();
     }
 
@@ -161,59 +160,27 @@ public class GlobalManager : MonoBehaviour
         Application.Quit();
     }
 
-    public void AddCoins(int coins)
+
+    public void AddFishToInventory(string item, int count)
     {
-        Coins += coins;
+        InventoryManager.AddItem(item, count);
         SaveProgress();
-        UpdateResourcesUI();
-    }
-
-    public void AddMedals(int medals)
-    {
-        Medals += medals;
-        SaveProgress();
-        UpdateResourcesUI();
-    }
-
-    public void AddEnergy(int energy)
-    {
-        Energy += energy;
-        SaveProgress();
-        UpdateResourcesUI();
-    }
-
-    public void DeductEnergy(int energy)
-    {
-        Energy -= energy;
-        SaveProgress();
-        UpdateResourcesUI();
-    }
-
-    public void AddExperience(int experience)
-    {
-        PlayerState.CurrentExperience += experience;
-
-        if (PlayerState.CurrentExperience >= PlayerState.ExperienceToNextLevel)
-        {
-            PlayerState.Level++;
-            PlayerState.CurrentExperience -= PlayerState.ExperienceToNextLevel;
-            PlayerState.ExperienceToNextLevel += PlayerState.ExperienceToNextLevel;
-        }
-
-        SaveProgress();
-        UpdateResourcesUI();
-    }
-
-    public void AddFishToInventory(string fishName, int count)
-    {
-        _progressManager.UpdateInventory(fishName, count);
+        UpdateInventoryUI();
     }
 
     private void UpdateResourcesUI()
     {
-        if (_resourcesUI != null)
+        if (ResourcesUI != null)
         {
-            _resourcesUI.UpdateUI(Coins, Medals, Energy);
+            ResourcesUI.UpdateUI(PlayerManager.Coins, PlayerManager.Medals, PlayerManager.Energy);
+        }
+    }
+
+    private void UpdateInventoryUI()
+    {
+        if (InventoryUI != null)
+        {
+            InventoryUI.UpdateInventoryUI(InventoryManager.GetInventory());
         }
     }
 

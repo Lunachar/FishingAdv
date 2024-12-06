@@ -82,8 +82,8 @@ public class FishingSystem
                 _uiManager.GetInventoryUI().ShowCatchResult(_currentFish, true);
                 _uiManager.UpdateInventory(_inventorySystem.GetInventory());
                 GlobalManager.Instance.AddFishToInventory(_currentFish.FishName, 1);
-                GlobalManager.Instance.AddExperience(_currentFish.GatheredExperience);
-                GlobalManager.Instance.AddMedals(_currentFish.Medals);
+                GlobalManager.Instance.PlayerManager.AddExperience(_currentFish.GatheredExperience);
+                GlobalManager.Instance.PlayerManager.AddMedals(_currentFish.Medals);
                 
                 // TODO: 1. save caught fish
                 // TODO: 2. add fish to inventory

@@ -5050,7 +5050,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1047275198}
-  - component: {fileID: 1047275197}
   - component: {fileID: 1047275200}
   - component: {fileID: 1047275199}
   m_Layer: 0
@@ -5060,21 +5059,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1047275197
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1047275196}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ba10c5b825fc384f9804a53f52ef077, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weatherUI: {fileID: 1153275117}
-  fishingUI: {fileID: 664518264}
-  inventoryUI: {fileID: 1672803122}
 --- !u!4 &1047275198
 Transform:
   m_ObjectHideFlags: 0
@@ -14894,7 +14878,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2094940185}
-  - component: {fileID: 2094940184}
   m_Layer: 0
   m_Name: Boot
   m_TagString: Untagged
@@ -14902,19 +14885,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2094940184
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2094940183}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe6f9001567d5324e9fda5b347528116, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _uiManager: {fileID: 1047275197}
 --- !u!4 &2094940185
 Transform:
   m_ObjectHideFlags: 0

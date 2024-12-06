@@ -237,6 +237,7 @@ GameObject:
   - component: {fileID: 200871625}
   - component: {fileID: 200871624}
   - component: {fileID: 200871626}
+  - component: {fileID: 200871627}
   m_Layer: 0
   m_Name: MainMenu
   m_TagString: Untagged
@@ -285,6 +286,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NewGameButton: {fileID: 1041537898}
   ContinueButton: {fileID: 572970488}
+--- !u!114 &200871627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 200871623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 258f49fe30cc8b64cb3a08a627935bc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &327303017
 GameObject:
   m_ObjectHideFlags: 0
