@@ -15,6 +15,10 @@ public class GlobalManager : MonoBehaviour
     public InventoryUI InventoryUI { get; private set; }
 
     private PlayerProgressManager _progressManager;
+    
+    private WeatherSystem _weatherSystem;
+    private FishingSystem _fishingSystem;
+    
 
     private bool _gameSystemsInitialized = false;
 
@@ -55,27 +59,9 @@ public class GlobalManager : MonoBehaviour
         WorldStateManager.Initialize(weather, season);
     }
 
-    // private void StartNewGameInternal()
-    // {
-    //     PlayerState = new PlayerState()
-    //     {
-    //         Level = 1,
-    //         CurrentExperience = 0,
-    //         ExperienceToNextLevel = 10
-    //     };
-    //     Coins = 0;
-    //     Medals = 0;
-    //     Energy = 10;
-    //     CurrentWeather = "Ясно";
-    //     CurrentSeason = "Лето";
-    //     Inventory.Clear();
-    //
-    //     SaveProgress();
-    // }
-
-
     public void StartNewGame()
     {
+        _gameSystemsInitialized = false;
         PlayerManager.Initialize(new PlayerState { Level = 1, CurrentExperience = 0, ExperienceToNextLevel = 10 }, 0, 0,
             10);
         InventoryManager.Initialize(new Dictionary<string, int>());
@@ -118,14 +104,15 @@ public class GlobalManager : MonoBehaviour
 
     private void InitializeGameSystems()
     {
-        var weatherSystem = new WeatherSystem();
-        weatherSystem.Initialize();
+        _weatherSystem = new WeatherSystem();
+        _weatherSystem.Initialize();
         
         var databaseManager = new DatabaseManager();
         databaseManager.Initialize();
         
-        var fishingSystem = new FishingSystem(databaseManager, weatherSystem);
-        fishingSystem.SetInventorySystem(InventoryManager);
+        _fishingSystem = new FishingSystem(databaseManager, weatherSystem);
+        _fishingSystem.SetInventoryManager(InventoryManager);
+        fishingSystem.SetUIManager();
     }
 
 

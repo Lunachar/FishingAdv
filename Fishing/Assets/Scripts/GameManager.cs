@@ -6,7 +6,7 @@ public class GameManager
     
     private FishingSystem _fishingSystem;
     private WeatherSystem _weatherSystem;
-    private InventorySystem _inventorySystem;
+    //private InventorySystem _inventorySystem;
     private IdleSkillSystem _idleSkillSystem;
     
     private DatabaseManager _databaseManager;
@@ -26,9 +26,9 @@ public class GameManager
         _databaseManager.Initialize();
         
         _fishingSystem = new FishingSystem(_databaseManager, _weatherSystem);
-        _inventorySystem = new InventorySystem();
-        _inventorySystem.Initialize();
-        _fishingSystem.SetInventorySystem(_inventorySystem);
+        // _inventorySystem = new InventorySystem();
+        // _inventorySystem.Initialize();
+        // _fishingSystem.SetInventorySystem(_inventorySystem);
         
         
         //_fishingSystem.Initialize();
@@ -37,7 +37,7 @@ public class GameManager
         //_uiManager.Initialize();
         
         _uiManager = uiManager;
-        _uiManager.Initialize(_weatherSystem, _fishingSystem, _inventorySystem);
+        //_uiManager.Initialize(_weatherSystem, _fishingSystem, _inventorySystem);
         Debug.Log($"GM. is uiManager ok?: {_uiManager}");
         _fishingSystem.SetUIManager(_uiManager);
         //_uiManager = new UIManager();

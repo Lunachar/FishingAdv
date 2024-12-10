@@ -27,6 +27,11 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    public void AddFish(Fish fish, int amount = 1)
+    {
+        AddItem(fish.FishName, amount);
+    }
+
     public void RemoveItem(string item, int amount)
     {
         if (_inventory.ContainsKey(item))
@@ -37,5 +42,10 @@ public class InventoryManager : MonoBehaviour
                 _inventory.Remove(item);
             }
         }
+    }
+
+    public void RemoveFish(Fish fish, int amount = 1)
+    {
+        RemoveItem(fish.FishName, amount);
     }
 }
