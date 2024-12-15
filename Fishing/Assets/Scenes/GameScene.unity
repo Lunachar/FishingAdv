@@ -5052,6 +5052,7 @@ GameObject:
   - component: {fileID: 1047275198}
   - component: {fileID: 1047275200}
   - component: {fileID: 1047275199}
+  - component: {fileID: 1047275201}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -5102,6 +5103,22 @@ MonoBehaviour:
   medalsText: {fileID: 2094931767}
   energyText: {fileID: 2866256}
   coinsText: {fileID: 1452490948}
+--- !u!114 &1047275201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1047275196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ba10c5b825fc384f9804a53f52ef077, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weatherUI: {fileID: 1153275117}
+  fishingUI: {fileID: 664518264}
+  inventoryUI: {fileID: 1672803122}
+  resourcesUI: {fileID: 1047275200}
 --- !u!1 &1054690321
 GameObject:
   m_ObjectHideFlags: 0
@@ -14869,37 +14886,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2094931765}
   m_CullTransparentMesh: 1
---- !u!1 &2094940183
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2094940185}
-  m_Layer: 0
-  m_Name: Boot
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2094940185
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2094940183}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 826.5, y: 420, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2113549470
 GameObject:
   m_ObjectHideFlags: 0
@@ -15193,5 +15179,4 @@ SceneRoots:
   - {fileID: 1641578542}
   - {fileID: 312409958}
   - {fileID: 685335446}
-  - {fileID: 2094940185}
   - {fileID: 1047275198}

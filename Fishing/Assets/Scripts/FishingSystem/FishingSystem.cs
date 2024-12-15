@@ -26,8 +26,11 @@ public class FishingSystem
     }
     public void SetUIManager(UIManager uiManager)
     {
-        _uiManager = uiManager;
-        Debug.Log($"FS. .SetUIManager: {_uiManager}");
+        if(uiManager != null)
+        {
+            _uiManager = uiManager;
+            Debug.Log($"FS. .SetUIManager: {_uiManager}");
+        }
     }
     
     public void SetCastDistance(float distance)

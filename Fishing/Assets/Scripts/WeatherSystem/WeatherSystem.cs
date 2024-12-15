@@ -60,4 +60,14 @@ public class WeatherSystem
         _currentWeather = GetRandomWeather();
         _currentSeason = GetRandomSeason();
     }
+
+    public void SetWeather(string weather)
+    {
+        _currentWeather = weather;
+    }
+
+    public void SetSeason(string season)
+    {
+        _currentSeason = season;
+    }
 }

@@ -7,12 +7,8 @@ public class UIManager : MonoBehaviour
     public WeatherUI weatherUI;
     public FishingUI fishingUI;
     public InventoryUI inventoryUI;
+    public ResourcesUI resourcesUI;
     
-    //private WeatherSystem _weatherSystem;
-    
-    // private IdleSkillsUI _idleSkillsUI;
-    // private CatchUI _catchUI;
-    //
     public void Initialize(WeatherSystem weatherSystem, FishingSystem fishingSystem, InventorySystem inventorySystem)
     {
         weatherUI?.Initialize(weatherSystem);
@@ -29,19 +25,7 @@ public class UIManager : MonoBehaviour
         
         inventoryUI?.UpdateInventoryUI(inventorySystem.GetInventory());
         
-     //   _weatherSystem = new WeatherSystem();
-        
-        // _fishingUI = new FishingUI();
-
-        
-        // _idleSkillsUI = new IdleSkillsUI();
-        // _catchUI = new CatchUI();
-        
-        // Initialization
-    
-        //weatherUI.Initialize(_weatherSystem);
-        // _idleSkillsUI.Initialize();
-        // _catchUI.Initialize();
+        resourcesUI?.Initialize();
     
     }
 
@@ -58,5 +42,20 @@ public class UIManager : MonoBehaviour
     public InventoryUI GetInventoryUI()
     {
         return inventoryUI;
+    }
+
+    public WeatherUI GetWeatherUI()
+    {
+        return weatherUI;
+    }
+
+    public FishingUI GetFishingUI()
+    {
+        return fishingUI;
+    }
+
+    public ResourcesUI GetResourcesUI()
+    {
+        return resourcesUI;
     }
 }

@@ -1,20 +1,25 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class DatabaseManager
 {
     private FishDatabaseManager _fishDatabaseManager; 
+    private PlayerProgressManager _playerProgressManager;
     
     public void Initialize()
     {
         _fishDatabaseManager = new FishDatabaseManager();
+        _playerProgressManager = new PlayerProgressManager();
     }
 
     public FishDatabaseManager GetFishDatabaseManager()
     {
         return _fishDatabaseManager;
+    }
+
+    public PlayerProgressManager GetPlayerProgressManager()
+    {
+        return _playerProgressManager;
     }
     public void Connect()
     {

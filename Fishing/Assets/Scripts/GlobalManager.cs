@@ -11,16 +11,15 @@ public class GlobalManager : MonoBehaviour
     public InventoryManager InventoryManager { get; private set; }
     public WorldStateManager WorldStateManager { get; private set; }
 
-    public ResourcesUI ResourcesUI { get; private set; }
-    public InventoryUI InventoryUI { get; private set; }
+    public UIManager UIManager { get; private set; }
 
-    private PlayerProgressManager _progressManager;
-    
+    private DatabaseManager _databaseManager;
+
     private WeatherSystem _weatherSystem;
     private FishingSystem _fishingSystem;
-    
+    private InventorySystem _inventorySystem;
 
-    private bool _gameSystemsInitialized = false;
+    private bool _gameSystemsInitialized;
 
     private void Awake()
     {
@@ -45,29 +44,16 @@ public class GlobalManager : MonoBehaviour
 
     private void Initialize()
     {
-        _progressManager = new PlayerProgressManager();
-
-        var (playerState, coins, medals, energy, weather, season, inventory) = _progressManager.LoadProgress();
-
-        PlayerManager = gameObject.AddComponent<PlayerManager>();
-        PlayerManager.Initialize(playerState, coins, medals, energy);
-
-        InventoryManager = gameObject.AddComponent<InventoryManager>();
-        InventoryManager.Initialize(inventory);
-
-        WorldStateManager = gameObject.AddComponent<WorldStateManager>();
-        WorldStateManager.Initialize(weather, season);
+        _databaseManager = new DatabaseManager();
+        _databaseManager.Initialize();
     }
 
     public void StartNewGame()
     {
         _gameSystemsInitialized = false;
-        PlayerManager.Initialize(new PlayerState { Level = 1, CurrentExperience = 0, ExperienceToNextLevel = 10 }, 0, 0,
-            10);
-        InventoryManager.Initialize(new Dictionary<string, int>());
-        WorldStateManager.Initialize("Ясно", "Лето");
 
-        SaveProgress();
+
+        //SaveProgress();
         SceneManager.LoadScene("GameScene");
     }
 
@@ -75,28 +61,15 @@ public class GlobalManager : MonoBehaviour
     {
         if (scene.name == "GameScene")
         {
-            ResourcesUI = FindObjectOfType<ResourcesUI>();
-            InventoryUI = FindObjectOfType<InventoryUI>();
-
-            UpdateResourcesUI();
-            UpdateInventoryUI();
-
-
-            if (InventoryUI != null)
-            {
-                InventoryUI.UpdateInventoryUI(InventoryManager.GetInventory());
-            }
-
-            if (ResourcesUI != null)
-            {
-                UpdateResourcesUI();
-            }
-
             if (!_gameSystemsInitialized)
             {
                 InitializeGameSystems();
                 _gameSystemsInitialized = true;
             }
+
+            UpdateResourcesUI();
+            UpdateInventoryUI();
+
 
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
@@ -104,21 +77,67 @@ public class GlobalManager : MonoBehaviour
 
     private void InitializeGameSystems()
     {
-        _weatherSystem = new WeatherSystem();
-        _weatherSystem.Initialize();
+        var (playerState, coins, medals, energy, weather, season, inventory) =
+            _databaseManager.GetPlayerProgressManager().LoadProgress();
+
+        if (PlayerManager == null)
+        {
+            PlayerManager = gameObject.AddComponent<PlayerManager>();
+            PlayerManager.Initialize(playerState, coins, medals, energy);
+        }
+
+        if (_inventorySystem == null)
+        {
+            _inventorySystem = new InventorySystem();
+            _inventorySystem.Initialize();
+        }
+
+        if (InventoryManager == null)
+        {
+            InventoryManager = gameObject.AddComponent<InventoryManager>();
+            InventoryManager.Initialize(_inventorySystem.GetInventory());
+        }
+        else
+        {
+            InventoryManager.Initialize(inventory);
+        }
+
+        if (WorldStateManager == null)
+        {
+            WorldStateManager = gameObject.AddComponent<WorldStateManager>();
+        }
+
+        if (_weatherSystem == null)
+        {
+            _weatherSystem = new WeatherSystem();
+            _weatherSystem.Initialize();
+        }
+        else
+        {
+            _weatherSystem.SetWeather(weather);
+            _weatherSystem.SetSeason(season);
+        }
+
+        if (_fishingSystem == null)
+        {
+            _fishingSystem = new FishingSystem(_databaseManager, _weatherSystem);
+        }
+
+        if (UIManager == null)
+        {
+            UIManager = FindObjectOfType<UIManager>();
+            UIManager.Initialize(_weatherSystem, _fishingSystem, _inventorySystem);
+        }
         
-        var databaseManager = new DatabaseManager();
-        databaseManager.Initialize();
-        
-        _fishingSystem = new FishingSystem(databaseManager, weatherSystem);
         _fishingSystem.SetInventoryManager(InventoryManager);
-        fishingSystem.SetUIManager();
+        _fishingSystem.SetUIManager(UIManager);
+        
     }
 
 
     public void SaveProgress()
     {
-        _progressManager.SaveProgress(
+        _databaseManager.GetPlayerProgressManager().SaveProgress(
             PlayerManager.PlayerState,
             PlayerManager.Coins,
             PlayerManager.Medals,
@@ -157,17 +176,17 @@ public class GlobalManager : MonoBehaviour
 
     private void UpdateResourcesUI()
     {
-        if (ResourcesUI != null)
+        if (UIManager.GetResourcesUI() != null)
         {
-            ResourcesUI.UpdateUI(PlayerManager.Coins, PlayerManager.Medals, PlayerManager.Energy);
+            UIManager.GetResourcesUI().UpdateUI(PlayerManager.Coins, PlayerManager.Medals, PlayerManager.Energy);
         }
     }
 
     private void UpdateInventoryUI()
     {
-        if (InventoryUI != null)
+        if (UIManager.GetInventoryUI() != null)
         {
-            InventoryUI.UpdateInventoryUI(InventoryManager.GetInventory());
+            UIManager.GetInventoryUI().UpdateInventoryUI(InventoryManager.GetInventory());
         }
     }
 

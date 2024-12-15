@@ -3,11 +3,14 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
+    public InventorySystem InventorySystem;
     private Dictionary<string, int> _inventory = new Dictionary<string, int>();
-
+    
     public void Initialize(Dictionary<string, int> initialInventory)
     {
         _inventory = initialInventory ?? new Dictionary<string, int>();
+        InventorySystem = new InventorySystem();
+        InventorySystem.Initialize();
     }
 
     public Dictionary<string, int> GetInventory()
@@ -47,5 +50,10 @@ public class InventoryManager : MonoBehaviour
     public void RemoveFish(Fish fish, int amount = 1)
     {
         RemoveItem(fish.FishName, amount);
+    }
+
+    public InventorySystem GetInventorySystem()
+    {
+        return InventorySystem;
     }
 }

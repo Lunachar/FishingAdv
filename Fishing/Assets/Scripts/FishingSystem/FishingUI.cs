@@ -37,7 +37,7 @@ public class FishingUI : MonoBehaviour
     private FishingSystem _fishingSystem; // Reference to the fishing system
     private string _selectedBait;         // Holds selected bait from dropdown
     private float _selectedDepth;         // Holds selected depth from depth slider
-    private float _selectedCastDistance;  // Holds selected cast distance from cast distance slider
+    private float _selectedCastDistance = 1f;  // Holds selected cast distance from cast distance slider
 
     [Header("Slider Motion Setting")]
     public float speed = 2f;
@@ -49,7 +49,15 @@ public class FishingUI : MonoBehaviour
 
     public void Initialize(FishingSystem fishingSystem)
     {
-        _fishingSystem = fishingSystem;
+        if(fishingSystem != null)
+        {
+            _fishingSystem = fishingSystem;
+            Debug.Log($"FS in FUI ok.");
+        }
+        else
+        {
+            Debug.Log($"FS in FUI is null.");
+        }
     }
 
     private void UpdateUI()
