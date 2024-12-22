@@ -77,7 +77,7 @@ public class PlayerProgressManager
                     "INSERT INTO Inventory (PlayerId, ItemName, Count) VALUES (@PlayerId, @ItemName, @Count)";
                 SqliteCommand insertCommand = new SqliteCommand(insertInventorySql, connection);
                 insertCommand.Parameters.AddWithValue("@PlayerId", 1);
-                insertCommand.Parameters.AddWithValue("@ItemIName", item.Key);
+                insertCommand.Parameters.AddWithValue("@ItemName", item.Key);
                 insertCommand.Parameters.AddWithValue("@Count", item.Value);
                 insertCommand.ExecuteNonQuery();
             }
@@ -155,5 +155,26 @@ public class PlayerProgressManager
         }
 
         return inventory;
+    }
+
+    public void ResetGameData()
+    {
+        using (var connection = new SqliteConnection(_connectionString))
+        {
+            connection.Open();
+            
+            // Table's data deletion
+            string deleteFromPlayerProgress = "DELETE FROM PlayerProgress";
+            new SqliteCommand(deleteFromPlayerProgress, connection).ExecuteNonQuery();
+            
+            string deleteFromInventory = "DELETE FROM Inventory";
+            new SqliteCommand(deleteFromInventory, connection).ExecuteNonQuery();
+            
+            // Initializing with default values
+            string resetPlayerProgress =
+                @"INSERT INTO PlayerProgress (PlayerId, Level, CurrentExperience, ExperienceToNextLevel, Coins, Medals, Energy, Weather, Season)
+                VALUES (1, 1, 0, 100, 10, 0, 10, 'Ясно', 'Лето')";
+            new SqliteCommand(resetPlayerProgress, connection).ExecuteNonQuery();
+        }
     }
 }

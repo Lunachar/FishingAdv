@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class FishingUI : MonoBehaviour
@@ -47,29 +45,10 @@ public class FishingUI : MonoBehaviour
 
     #endregion
 
-    public void Initialize(FishingSystem fishingSystem)
-    {
-        if(fishingSystem != null)
-        {
-            _fishingSystem = fishingSystem;
-            Debug.Log($"FS in FUI ok.");
-        }
-        else
-        {
-            Debug.Log($"FS in FUI is null.");
-        }
-    }
-
-    private void UpdateUI()
-    {
-        //_fishingSystem.SetCastDistance(float.Parse(Text_SetCastValue.text));
-        _fishingSystem.SetCastDistance(_selectedCastDistance);
-        _fishingSystem.SetDepth(_selectedDepth);
-        _fishingSystem.SetBait(_selectedBait);
-    }
-
     private void Start()
     {
+        Debug.Log($"is _fSui null? {(_fishingSystem == null).ToString()}");
+        //ButtonStopStart.interactable = false;
         CastDistanceSliderSet.gameObject.SetActive(false);
         ButtonStopStart.onClick.AddListener(ToggleSliderMovement);
         _centerValue = CastDistanceSliderChoose.value;
@@ -80,7 +59,35 @@ public class FishingUI : MonoBehaviour
         
         BaitDropdown.onValueChanged.AddListener(delegate { BaitDropdownValueChanged();});
         PopulateBaitOptions();
+        Debug.Log($"is _fSui null? {(_fishingSystem == null).ToString()}");
+        Debug.Log("FishingUI Start method completed.");
     }
+    public void Initialize(FishingSystem fishingSystem)
+    {
+        if(fishingSystem != null)
+        {
+            _fishingSystem = fishingSystem;
+            Debug.Log($"FS in FUI ok. StackTrace: {System.Environment.StackTrace}");
+        }
+        else
+        {
+            Debug.Log($"FS in FUI is null.");
+        }
+    }
+
+    private void UpdateUI()
+    {
+        if (_fishingSystem == null)
+        {
+            Debug.Log($"Cannot update UI. FishingSystem is null. StackTrace: {System.Environment.StackTrace}");
+            return;
+        }
+        _fishingSystem.SetCastDistance(_selectedCastDistance);
+        _fishingSystem.SetDepth(_selectedDepth);
+        _fishingSystem.SetBait(_selectedBait);
+        Debug.Log("UI updated successfully.");
+    }
+
 
     private void PopulateBaitOptions()
     {
@@ -88,7 +95,7 @@ public class FishingUI : MonoBehaviour
         List<string> baitOptions = new List<string> { "Червь", "Насекомое", "Тесто", "Мальки", "Креветка", "Хлеб" };
         BaitDropdown.AddOptions(baitOptions);
         _selectedBait = BaitDropdown.options[BaitDropdown.value].text;
-        UpdateUI();
+        //UpdateUI();
     }
 
     private void BaitDropdownValueChanged()
@@ -162,6 +169,11 @@ public class FishingUI : MonoBehaviour
 
     private void ToggleSliderMovement()
     {
+        if (_fishingSystem == null)
+        {
+            Debug.Log("FIshingSystem is null");
+            return;
+        }
         GlobalManager.Instance.PlayerManager.DeductEnergy(1);
         _isMoving = !_isMoving;
         Debug.Log("Current Slider Value: " + CastDistanceSliderSet.value);

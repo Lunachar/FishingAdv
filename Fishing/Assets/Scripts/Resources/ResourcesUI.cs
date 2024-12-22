@@ -9,7 +9,7 @@ public class ResourcesUI : MonoBehaviour
 
     public void Initialize()
     {
-        
+        UpdateUI(01, 0, 0);
     }
     public void UpdateUI(int medals, int energy, int coins)
     {

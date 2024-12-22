@@ -1,43 +1,58 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class InventorySystem
+public class InventorySystem : MonoBehaviour
 {
-    private Dictionary<string, int> _fishCount;
+    private Dictionary<string, int> _inventory = new();
+    
     public void Initialize()
     {
-        _fishCount = new Dictionary<string, int>();
-    }
-
-    public void AddFish(Fish fish)
-    {
-        if (_fishCount.ContainsKey(fish.FishName))
-        {
-            _fishCount[fish.FishName]++;
-        }
-        else
-        {
-            _fishCount[fish.FishName] = 1;
-        }
+        _inventory = new Dictionary<string, int>();
     }
 
     public Dictionary<string, int> GetInventory()
     {
-        return _fishCount;
+        return _inventory;
     }
-    
-    
-    // public void ShowCatchResult(Fish fish, bool isSuccessful)
+
+    public void AddItem(string item, int amount)
+    {
+        if (_inventory.ContainsKey(item))
+        {
+            _inventory[item] += amount;
+        }
+        else
+        {
+            _inventory.Add(item, amount);
+        }
+        
+        Debug.Log($"Item {item} added. New count: {_inventory[item]}");
+    }
+
+    public void AddFish(Fish fish, int amount = 1)
+    {
+        AddItem(fish.FishName, amount);
+    }
+
+    public void RemoveItem(string item, int amount)
+    {
+        if (_inventory.ContainsKey(item))
+        {
+            _inventory[item] -= amount;
+            if (_inventory[item] <= 0)
+            {
+                _inventory.Remove(item);
+            }
+        }
+    }
+
+    public void RemoveFish(Fish fish, int amount = 1)
+    {
+        RemoveItem(fish.FishName, amount);
+    }
+
+    // public InventorySystem GetInventorySystem()
     // {
-    //     if (isSuccessful)
-    //     {
-    //         AddFish(fish);
-    //         Debug.Log($"You catch: {fish.FishName}");
-    //         // ResultImage.Sprite = Fish.Sprite;
-    //     }
-    //     else
-    //     {
-    //         Debug.Log("You didn't catch anything");
-    //     }
+    //     return InventorySystem;
     // }
 }

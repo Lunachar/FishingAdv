@@ -18,9 +18,9 @@ public class InventoryUI : MonoBehaviour
     [Header("Timing")]
     public float displayDuration = 3f;
     public float fadeDuration = 1f;
-    
 
-    private void Start()
+
+    public void Initialize()
     {
         FishImageCanvasGroup.alpha = 0f;
     }

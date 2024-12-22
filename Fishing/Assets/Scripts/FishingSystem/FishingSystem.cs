@@ -11,7 +11,7 @@ public class FishingSystem
     private WeatherSystem _weather;
     private DatabaseManager _databaseManager;
     private Fish _currentFish;
-    private InventoryManager _inventoryManager;
+    private InventorySystem _inventorySystem;
     private UIManager _uiManager;
 
     public FishingSystem(DatabaseManager databaseManager, WeatherSystem weather)
@@ -20,16 +20,16 @@ public class FishingSystem
         _weather = weather;
     }
 
-    public void SetInventoryManager(InventoryManager inventoryManager)
+    public void SetInventorySystem(InventorySystem inventorySystem)
     {
-        _inventoryManager = inventoryManager;
+        _inventorySystem = inventorySystem;
     }
     public void SetUIManager(UIManager uiManager)
     {
         if(uiManager != null)
         {
             _uiManager = uiManager;
-            Debug.Log($"FS. .SetUIManager: {_uiManager}");
+            Debug.Log($"FS. .SetUIManager: {(uiManager == null).ToString()}");
         }
     }
     
@@ -81,10 +81,10 @@ public class FishingSystem
             if (IsFishCaught(catchProbability))
             {
                 Debug.Log($"!!!Success!!!   Fish caught: {_currentFish.FishName}");
-                _inventoryManager.AddFish(_currentFish);
+                _inventorySystem.AddFish(_currentFish);
                 _uiManager.GetInventoryUI().ShowCatchResult(_currentFish, true);
-                _uiManager.UpdateInventory(_inventoryManager.GetInventory());
-                GlobalManager.Instance.AddFishToInventory(_currentFish.FishName, 1);
+                _uiManager.UpdateInventory(_inventorySystem.GetInventory());
+                GlobalManager.Instance.AddFishToInventory(_currentFish, 1);
                 GlobalManager.Instance.PlayerManager.AddExperience(_currentFish.GatheredExperience);
                 GlobalManager.Instance.PlayerManager.AddMedals(_currentFish.Medals);
                 
