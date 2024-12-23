@@ -133,7 +133,7 @@ public class GlobalManager : MonoBehaviour
             {
                 Debug.Log("Initializing UI");
                 Debug.Log($"3.is _fSui null? {(_fishingSystem == null).ToString()}");
-                UIManager.Initialize(_weatherSystem, _fishingSystem, _inventorySystem);
+                //UIManager.Initialize(_weatherSystem, _fishingSystem, _inventorySystem);
             }
         }
         else
@@ -218,8 +218,23 @@ public class GlobalManager : MonoBehaviour
         }
     }
 
+    public FishingSystem GetFishingSystem()
+    {
+        return _fishingSystem;
+    }
+
+    public InventorySystem GetInventorySystem()
+    {
+        return _inventorySystem;
+    }
+
+    public WeatherSystem GetWeatherSystem()
+    {
+        return _weatherSystem;
+    }
     public void LoadMarket()
     {
         SceneManager.LoadScene("MarketScene");
     }
+    
 }

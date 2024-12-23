@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using TMPro;
 using UnityEngine;
@@ -36,6 +37,8 @@ public class FishingUI : MonoBehaviour
     private string _selectedBait;         // Holds selected bait from dropdown
     private float _selectedDepth;         // Holds selected depth from depth slider
     private float _selectedCastDistance = 1f;  // Holds selected cast distance from cast distance slider
+    
+    private int checker = 0;
 
     [Header("Slider Motion Setting")]
     public float speed = 2f;
@@ -45,8 +48,16 @@ public class FishingUI : MonoBehaviour
 
     #endregion
 
+    private void Awake()
+    {
+        _fishingSystem = GlobalManager.Instance.GetFishingSystem();
+    }
+
     private void Start()
     {
+        checker += 1;
+        Debug.Log($"checker 2: {checker}");
+        
         Debug.Log($"is _fSui null? {(_fishingSystem == null).ToString()}");
         //ButtonStopStart.interactable = false;
         CastDistanceSliderSet.gameObject.SetActive(false);
@@ -62,18 +73,20 @@ public class FishingUI : MonoBehaviour
         Debug.Log($"is _fSui null? {(_fishingSystem == null).ToString()}");
         Debug.Log("FishingUI Start method completed.");
     }
-    public void Initialize(FishingSystem fishingSystem)
-    {
-        if(fishingSystem != null)
-        {
-            _fishingSystem = fishingSystem;
-            Debug.Log($"FS in FUI ok. StackTrace: {System.Environment.StackTrace}");
-        }
-        else
-        {
-            Debug.Log($"FS in FUI is null.");
-        }
-    }
+    // public void Initialize(FishingSystem fishingSystem)
+    // {
+    //     checker += 1;
+    //     Debug.Log($"checker 1: {checker}");
+    //     if(fishingSystem != null)
+    //     {
+    //         _fishingSystem = fishingSystem;
+    //         Debug.Log($"FS in FUI ok. StackTrace: {System.Environment.StackTrace}");
+    //     }
+    //     else
+    //     {
+    //         Debug.Log($"FS in FUI is null.");
+    //     }
+    // }
 
     private void UpdateUI()
     {

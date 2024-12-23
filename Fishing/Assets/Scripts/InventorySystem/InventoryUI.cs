@@ -20,7 +20,7 @@ public class InventoryUI : MonoBehaviour
     public float fadeDuration = 1f;
 
 
-    public void Initialize()
+    private void Awake()
     {
         FishImageCanvasGroup.alpha = 0f;
     }

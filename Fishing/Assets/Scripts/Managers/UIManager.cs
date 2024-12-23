@@ -24,10 +24,10 @@ public class UIManager : MonoBehaviour
         }
         
         Debug.Log("Systems initialized!");
-        weatherUI?.Initialize(weatherSystem);
-        fishingUI?.Initialize(fishingSystem);
-        inventoryUI?.Initialize();
-        resourcesUI?.Initialize();
+        //weatherUI?.Initialize(weatherSystem);
+        //fishingUI?.Initialize(fishingSystem);
+        //inventoryUI?.Initialize();
+        //resourcesUI?.Initialize();
     }
 
     private void UpdateWeather()

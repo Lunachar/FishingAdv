@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -9,16 +10,9 @@ public class WeatherUI: MonoBehaviour
 
     private WeatherSystem _weatherSystem;
 
-    public void Initialize(WeatherSystem weatherSystem)
+    private void Awake()
     {
-        _weatherSystem = weatherSystem;
-        
-        if (WeatherText == null || SeasonText == null)
-        {
-            Debug.Log("Text not assigned");
-            return;
-        }
-        
+        _weatherSystem = GlobalManager.Instance.GetWeatherSystem();
         UpdateWeatherUI();
     }
 

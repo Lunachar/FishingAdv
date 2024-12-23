@@ -7,10 +7,7 @@ public class ResourcesUI : MonoBehaviour
     public TMP_Text energyText;
     public TMP_Text coinsText;
 
-    public void Initialize()
-    {
-        UpdateUI(01, 0, 0);
-    }
+    
     public void UpdateUI(int medals, int energy, int coins)
     {
         medalsText.text = medals.ToString();

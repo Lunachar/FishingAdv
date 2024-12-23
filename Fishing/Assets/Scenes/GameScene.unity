@@ -2664,7 +2664,6 @@ GameObject:
   - component: {fileID: 664518263}
   - component: {fileID: 664518262}
   - component: {fileID: 664518261}
-  - component: {fileID: 664518264}
   m_Layer: 5
   m_Name: FishingCanvas
   m_TagString: Untagged
@@ -2757,27 +2756,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 1
   m_TargetDisplay: 0
---- !u!114 &664518264
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 664518259}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a1149a3571c412b975330cf0b75fb9d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CastDistanceSliderChoose: {fileID: 680184154}
-  Text_ChooseCastValue: {fileID: 505945263}
-  CastDistanceSliderSet: {fileID: 201415509}
-  Text_SetCastValue: {fileID: 1512676040}
-  DepthSlider: {fileID: 1607602497}
-  DepthText: {fileID: 965673526}
-  BaitDropdown: {fileID: 570686299}
-  ButtonStopStart: {fileID: 1449589581}
-  speed: 2
 --- !u!1 &680184152
 GameObject:
   m_ObjectHideFlags: 0
@@ -5053,6 +5031,8 @@ GameObject:
   - component: {fileID: 1047275200}
   - component: {fileID: 1047275199}
   - component: {fileID: 1047275201}
+  - component: {fileID: 1047275202}
+  - component: {fileID: 1047275203}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -5116,9 +5096,49 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weatherUI: {fileID: 1153275117}
-  fishingUI: {fileID: 664518264}
-  inventoryUI: {fileID: 1672803122}
+  fishingUI: {fileID: 1047275202}
+  inventoryUI: {fileID: 1047275203}
   resourcesUI: {fileID: 1047275200}
+--- !u!114 &1047275202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1047275196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a1149a3571c412b975330cf0b75fb9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CastDistanceSliderChoose: {fileID: 680184154}
+  Text_ChooseCastValue: {fileID: 505945263}
+  CastDistanceSliderSet: {fileID: 201415509}
+  Text_SetCastValue: {fileID: 1512676040}
+  DepthSlider: {fileID: 1607602497}
+  DepthText: {fileID: 965673526}
+  BaitDropdown: {fileID: 570686299}
+  ButtonStopStart: {fileID: 1449589581}
+  speed: 2
+--- !u!114 &1047275203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1047275196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 200ec4c7ea70786488980aa3265caebd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InventoryText: {fileID: 1618141135}
+  FishImage: {fileID: 1555324393}
+  EmptyHookSprite: {fileID: 21300000, guid: 11b935ca8c8dd5947bda6b3c71048086, type: 3}
+  FishImageCanvasGroup: {fileID: 1555324394}
+  SuccessEffect: {fileID: 1306424101}
+  displayDuration: 3
+  fadeDuration: 1
 --- !u!1 &1054690321
 GameObject:
   m_ObjectHideFlags: 0
@@ -13086,7 +13106,6 @@ GameObject:
   - component: {fileID: 1672803121}
   - component: {fileID: 1672803120}
   - component: {fileID: 1672803119}
-  - component: {fileID: 1672803122}
   m_Layer: 5
   m_Name: CatchCanvas
   m_TagString: Untagged
@@ -13178,25 +13197,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 1
   m_TargetDisplay: 0
---- !u!114 &1672803122
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1672803117}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 200ec4c7ea70786488980aa3265caebd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  InventoryText: {fileID: 1618141135}
-  FishImage: {fileID: 1555324393}
-  EmptyHookSprite: {fileID: 21300000, guid: 11b935ca8c8dd5947bda6b3c71048086, type: 3}
-  FishImageCanvasGroup: {fileID: 1555324394}
-  SuccessEffect: {fileID: 1306424101}
-  displayDuration: 3
-  fadeDuration: 1
 --- !u!1 &1726843085
 GameObject:
   m_ObjectHideFlags: 0
