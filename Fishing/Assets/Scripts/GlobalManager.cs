@@ -60,7 +60,7 @@ public class GlobalManager : MonoBehaviour
         WorldStateManager = gameObject.AddComponent<WorldStateManager>();
         WorldStateManager.Initialize(weather, season);
 
-        _inventorySystem = gameObject.AddComponent<InventorySystem>();
+        _inventorySystem = new InventorySystem();
         _inventorySystem.Initialize();
     }
 
@@ -100,7 +100,7 @@ public class GlobalManager : MonoBehaviour
 
         if (_inventorySystem == null)
         {
-            _inventorySystem = gameObject.AddComponent<InventorySystem>();
+            _inventorySystem = new InventorySystem();
             _inventorySystem.Initialize();
         }
 
@@ -126,7 +126,7 @@ public class GlobalManager : MonoBehaviour
             _fishingSystem = new FishingSystem(_databaseManager, _weatherSystem);
         }
 
-        if (UIManager == null && _fishingSystem != null)
+        if (UIManager == null)
         {
             UIManager = FindObjectOfType<UIManager>();
             if (UIManager != null)
@@ -141,7 +141,7 @@ public class GlobalManager : MonoBehaviour
             Debug.Log("UIManager already initialized");
         }
 
-        _fishingSystem.SetInventorySystem(_inventorySystem);
+        _fishingSystem.SetInventorySystem();
         _fishingSystem.SetUIManager(UIManager);
     }
 

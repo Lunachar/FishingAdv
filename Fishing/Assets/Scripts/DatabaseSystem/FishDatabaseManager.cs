@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using Mono.Data.Sqlite;
 using UnityEngine;
@@ -6,11 +7,13 @@ using UnityEngine;
 
 public class FishDatabaseManager
 {
-    private string _connectionString = "Data Source=FishDatabase.sqlite;Version=3";
+    private string _connectionString = $"Data Source=FishDatabase.sqlite;Version=3";
+
 
     public FishDatabaseManager()
     {
         CreateDatabase();
+        LogTableInfo();
         if (!IsDatabaseInitialized())
         {
             InsertFishData();
@@ -19,13 +22,14 @@ public class FishDatabaseManager
 
     private void CreateDatabase()
     {
-        if (!System.IO.File.Exists("FishDatabase.sqlite"))
+        if (!File.Exists("FishDatabase.sqlite"))
         {
             SqliteConnection.CreateFile("FishDatabase.sqlite");
             using (var connection = new SqliteConnection(_connectionString))
             {
                 connection.Open();
-                string sql = @"CREATE TABLE IF NOT EXISTS Fish (
+                string sqlFdb = @"
+                                CREATE TABLE IF NOT EXISTS Fish (
                                 FishName TEXT,
                                 PreferredDepth REAL,
                                 PreferredCastDistance REAL,
@@ -37,7 +41,7 @@ public class FishDatabaseManager
                                 Medals INTEGER,
                                 NeededSkill INTEGER,
                                 GatheredExperience INTEGER)";
-                SqliteCommand command = new SqliteCommand(sql, connection);
+                SqliteCommand command = new SqliteCommand(sqlFdb, connection);
                 command.ExecuteNonQuery();
             }
         }
@@ -45,29 +49,43 @@ public class FishDatabaseManager
 
     private bool IsDatabaseInitialized()
     {
-        using (var connection = new SqliteConnection(_connectionString))
+        using var connection = new SqliteConnection(_connectionString);
+        connection.Open();
+        try
         {
-            connection.Open();
             string sql = "SELECT COUNT(*) FROM Fish";
             SqliteCommand command = new SqliteCommand(sql, connection);
             long count = (long)command.ExecuteScalar();
+            Debug.Log($"Number of rows in Fish table: {count}");
             return count > 0;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Error checking database initialization: {e.Message}");
+            return false;
         }
     }
 
+
     private void InsertFishData()
+{
+    var fishList = GetFishList(); // Метод возвращает список объектов Fish.
+    Debug.Log($"Inserting {fishList.Count} fish into the database.");
+
+    string dbPath = Path.Combine(Application.persistentDataPath, "FishDatabase.sqlite");
+    using (var connection = new SqliteConnection($"Data Source={dbPath};Version=3;"))
     {
-        var fishList = GetFishList();
-
-        using (var connection = new SqliteConnection(_connectionString))
+        connection.Open();
+        foreach (var fish in fishList)
         {
-            connection.Open();
-            foreach (var fish in fishList)
+            try
             {
-                string sql =
-                    @"INSERT INTO Fish (FishName, PreferredDepth, PreferredCastDistance, ActiveSeason, ActiveWeather, Rarity, PreferredBait, Coins, Medals, NeededSkill, GatheredExperience)
-                               VALUES (@FishName, @PreferredDepth, @PreferredCastDistance, @ActiveSeason, @ActiveWeather, @Rarity, @PreferredBait, @Coins, @Medals, @NeededSkill, @GatheredExperience)";
-
+                string sql = @"
+                    INSERT INTO Fish 
+                    (FishName, PreferredDepth, PreferredCastDistance, ActiveSeason, ActiveWeather, Rarity, PreferredBait, Coins, Medals, NeededSkill, GatheredExperience) 
+                    VALUES 
+                    (@FishName, @PreferredDepth, @PreferredCastDistance, @ActiveSeason, @ActiveWeather, @Rarity, @PreferredBait, @Coins, @Medals, @NeededSkill, @GatheredExperience)";
+                
                 SqliteCommand command = new SqliteCommand(sql, connection);
                 command.Parameters.AddWithValue("@FishName", fish.FishName);
                 command.Parameters.AddWithValue("@PreferredDepth", fish.PreferredDepth);
@@ -80,10 +98,18 @@ public class FishDatabaseManager
                 command.Parameters.AddWithValue("@Medals", fish.Medals);
                 command.Parameters.AddWithValue("@NeededSkill", fish.NeededSkill);
                 command.Parameters.AddWithValue("@GatheredExperience", fish.GatheredExperience);
+
                 command.ExecuteNonQuery();
+                Debug.Log($"Inserted fish: {fish.FishName}");
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Error inserting fish {fish.FishName}: {e.Message}");
             }
         }
     }
+}
+
 
 public List<Fish> GetFishList()
 {
@@ -210,7 +236,7 @@ private Dictionary<string, string> _fishNameMapping = new Dictionary<string, str
                 string activeWeather = reader["ActiveWeather"].ToString();
                 string rarity = reader["Rarity"].ToString();
                 string preferredBait = reader["PreferredBait"].ToString();
-                int price = int.Parse(reader["Price"].ToString());
+                int price = int.Parse(reader["Coins"].ToString());
                 int medals = int.Parse(reader["Medals"].ToString());
                 int neededSkill = int.Parse(reader["NeededSkill"].ToString());
                 int gatheredExperience = int.Parse(reader["GatheredExperience"].ToString());
@@ -220,6 +246,10 @@ private Dictionary<string, string> _fishNameMapping = new Dictionary<string, str
                 
                 // load sprite from Resources folder
                 Sprite fishSprite = Resources.Load<Sprite>($"Pictures/FishSprites/{englishName}") ?? Resources.Load<Sprite>($"Pictures/FishSprites/Cod");
+                if (fishSprite == null)
+                {
+                    Debug.LogError($"Fish sprite not found for {name}");
+                }
 
                 return new Fish(name, preferredDepth, preferredCastDistance, activeSeason, activeWeather, rarity,
                     preferredBait, price, medals, neededSkill, gatheredExperience)
@@ -230,4 +260,23 @@ private Dictionary<string, string> _fishNameMapping = new Dictionary<string, str
         }
         return null;    // no fish found
     }
+    private void LogTableInfo()
+    {
+        string dbPath = Path.Combine(Application.persistentDataPath, "FishDatabase.sqlite");
+        using (var connection = new SqliteConnection($"Data Source={dbPath};Version=3;"))
+        {
+            connection.Open();
+            string sql = "PRAGMA table_info(Fish)";
+            SqliteCommand command = new SqliteCommand(sql, connection);
+            using (var reader = command.ExecuteReader())
+            {
+                Debug.Log("Table structure for 'Fish':");
+                while (reader.Read())
+                {
+                    Debug.Log($"Column: {reader["name"]}, Type: {reader["type"]}");
+                }
+            }
+        }
+    }
+
 }

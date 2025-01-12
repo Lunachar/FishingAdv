@@ -20,9 +20,9 @@ public class FishingSystem
         _weather = weather;
     }
 
-    public void SetInventorySystem(InventorySystem inventorySystem)
+    public void SetInventorySystem()
     {
-        _inventorySystem = inventorySystem;
+        _inventorySystem = GlobalManager.Instance.GetInventorySystem();
     }
     public void SetUIManager(UIManager uiManager)
     {
@@ -81,8 +81,10 @@ public class FishingSystem
             if (IsFishCaught(catchProbability))
             {
                 Debug.Log($"!!!Success!!!   Fish caught: {_currentFish.FishName}");
+                Fish fishWithSprite = _databaseManager.GetFishDatabaseManager().LoadFishData(_currentFish.FishName);
                 _inventorySystem.AddFish(_currentFish);
-                _uiManager.GetInventoryUI().ShowCatchResult(_currentFish, true);
+                Debug.Log("StartFishing: _uiManager.GetInventoryUI(): " + _uiManager.GetInventoryUI());
+                _uiManager.GetInventoryUI().ShowCatchResult(fishWithSprite, true);
                 _uiManager.UpdateInventory(_inventorySystem.GetInventory());
                 GlobalManager.Instance.AddFishToInventory(_currentFish, 1);
                 GlobalManager.Instance.PlayerManager.AddExperience(_currentFish.GatheredExperience);

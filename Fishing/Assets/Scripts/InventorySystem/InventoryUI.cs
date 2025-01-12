@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class InventoryUI : MonoBehaviour
@@ -19,9 +20,12 @@ public class InventoryUI : MonoBehaviour
     public float displayDuration = 3f;
     public float fadeDuration = 1f;
 
+    public int checker;
+
 
     private void Awake()
     {
+        checker += 1;
         FishImageCanvasGroup.alpha = 0f;
     }
 
@@ -49,9 +53,12 @@ public class InventoryUI : MonoBehaviour
 
     public void ShowCatchResult(Fish fish, bool isSuccessful)
     {
+        Debug.Log("ShowCatchResult called. FishImage: " + FishImage + ", isSuccessful: " + isSuccessful);
         if (isSuccessful)
         {
             Debug.Log($"Successful catch {fish.FishName}");
+            checker += 1;
+            Debug.Log(checker);
             FishImage.sprite = fish.Sprite;
             AudioManager.Instance.PlaySoundSequence(new List<AudioClip>
             {
@@ -66,7 +73,8 @@ public class InventoryUI : MonoBehaviour
             FishImage.sprite = EmptyHookSprite;
             AudioManager.Instance.PlaySoundEffect(AudioManager.Instance.failClip);
         }
-        StopAllCoroutines();
+        StopCoroutine(nameof(ShowAndFadeOut));
+        //StopAllCoroutines();
         StartCoroutine(ShowAndFadeOut());
     }
 

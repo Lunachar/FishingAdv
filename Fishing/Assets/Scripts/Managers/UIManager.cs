@@ -35,6 +35,10 @@ public class UIManager : MonoBehaviour
         weatherUI?.UpdateWeatherUI();
     }
 
+    // public void SetInventoryUI()
+    // {
+    //     inventoryUI = FindObjectOfType<InventoryUI>();
+    // }
     public void UpdateInventory(Dictionary<string, int> fishInventory)
     {
         inventoryUI?.UpdateInventoryUI(fishInventory);

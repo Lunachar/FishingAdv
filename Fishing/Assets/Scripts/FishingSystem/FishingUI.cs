@@ -38,7 +38,7 @@ public class FishingUI : MonoBehaviour
     private float _selectedDepth;         // Holds selected depth from depth slider
     private float _selectedCastDistance = 1f;  // Holds selected cast distance from cast distance slider
     
-    private int checker = 0;
+    private int _checker = 0;
 
     [Header("Slider Motion Setting")]
     public float speed = 2f;
@@ -55,8 +55,8 @@ public class FishingUI : MonoBehaviour
 
     private void Start()
     {
-        checker += 1;
-        Debug.Log($"checker 2: {checker}");
+        _checker += 1;
+        Debug.Log($"checker 2: {_checker}");
         
         Debug.Log($"is _fSui null? {(_fishingSystem == null).ToString()}");
         //ButtonStopStart.interactable = false;
