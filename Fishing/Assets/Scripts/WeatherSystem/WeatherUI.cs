@@ -12,8 +12,13 @@ public class WeatherUI: MonoBehaviour
 
     private void Awake()
     {
+        
+    }
+    public void Initialize()
+    {
         _weatherSystem = GlobalManager.Instance.GetWeatherSystem();
         UpdateWeatherUI();
+        Debug.Log($"Initialized {GetType().Name}");
     }
 
     public void UpdateWeatherUI()

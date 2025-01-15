@@ -15,7 +15,7 @@ public class InventorySystem
         return _inventory;
     }
 
-    public void AddItem(string item, int amount)
+    private void AddItem(string item, int amount)
     {
         if (_inventory.ContainsKey(item))
         {

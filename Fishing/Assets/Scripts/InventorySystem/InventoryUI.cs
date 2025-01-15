@@ -25,8 +25,14 @@ public class InventoryUI : MonoBehaviour
 
     private void Awake()
     {
+        
+    }
+    
+    public void Initialize()
+    {
         checker += 1;
         FishImageCanvasGroup.alpha = 0f;
+        Debug.Log($"Initialized {GetType().Name}");
     }
 
     // public void PlaySound(bool isSuccessful)

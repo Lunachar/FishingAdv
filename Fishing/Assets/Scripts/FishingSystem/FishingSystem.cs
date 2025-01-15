@@ -82,7 +82,6 @@ public class FishingSystem
             {
                 Debug.Log($"!!!Success!!!   Fish caught: {_currentFish.FishName}");
                 Fish fishWithSprite = _databaseManager.GetFishDatabaseManager().LoadFishData(_currentFish.FishName);
-                _inventorySystem.AddFish(_currentFish);
                 Debug.Log("StartFishing: _uiManager.GetInventoryUI(): " + _uiManager.GetInventoryUI());
                 _uiManager.GetInventoryUI().ShowCatchResult(fishWithSprite, true);
                 _uiManager.UpdateInventory(_inventorySystem.GetInventory());

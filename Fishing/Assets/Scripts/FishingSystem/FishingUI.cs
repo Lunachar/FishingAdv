@@ -9,39 +9,33 @@ public class FishingUI : MonoBehaviour
 {
     #region UI Elements
 
-    [Header("Cast Distance Selection")]
-    public Slider CastDistanceSliderChoose;
+    [Header("Cast Distance Selection")] public Slider CastDistanceSliderChoose;
     public TMP_Text Text_ChooseCastValue;
-    
-    [Header("Casting Setting")]
-    public Slider CastDistanceSliderSet;
+
+    [Header("Casting Setting")] public Slider CastDistanceSliderSet;
     public TMP_Text Text_SetCastValue;
-    
-    [Header("Depth Selection")]
-    public Slider DepthSlider;
+
+    [Header("Depth Selection")] public Slider DepthSlider;
     public TMP_Text DepthText;
-    
-    [Header("Bait Selection")]
-    public TMP_Dropdown BaitDropdown;
-    
-    [Header("Control Button")]
-    public Button ButtonStopStart;
+
+    [Header("Bait Selection")] public TMP_Dropdown BaitDropdown;
+
+    [Header("Control Button")] public Button ButtonStopStart;
 
     #endregion
 
     #region Private Fields
 
-    private bool _isMoving = false;       // Flag for slider movement
-    private float _timeElapsed = 0f;      // Elapsed time for slider oscillation
+    private bool _isMoving = false; // Flag for slider movement
+    private float _timeElapsed = 0f; // Elapsed time for slider oscillation
     private FishingSystem _fishingSystem; // Reference to the fishing system
-    private string _selectedBait;         // Holds selected bait from dropdown
-    private float _selectedDepth;         // Holds selected depth from depth slider
-    private float _selectedCastDistance = 1f;  // Holds selected cast distance from cast distance slider
-    
+    private string _selectedBait; // Holds selected bait from dropdown
+    private float _selectedDepth; // Holds selected depth from depth slider
+    private float _selectedCastDistance = 1f; // Holds selected cast distance from cast distance slider
+
     private int _checker = 0;
 
-    [Header("Slider Motion Setting")]
-    public float speed = 2f;
+    [Header("Slider Motion Setting")] public float speed = 2f;
     private float _minValue;
     private float _maxValue;
     private float _centerValue;
@@ -50,25 +44,30 @@ public class FishingUI : MonoBehaviour
 
     private void Awake()
     {
+    }
+
+    public void Initialize()
+    {
         _fishingSystem = GlobalManager.Instance.GetFishingSystem();
+        Debug.Log($"Initialized {GetType().Name}");
     }
 
     private void Start()
     {
         _checker += 1;
         Debug.Log($"checker 2: {_checker}");
-        
+
         Debug.Log($"is _fSui null? {(_fishingSystem == null).ToString()}");
         //ButtonStopStart.interactable = false;
         CastDistanceSliderSet.gameObject.SetActive(false);
         ButtonStopStart.onClick.AddListener(ToggleSliderMovement);
         _centerValue = CastDistanceSliderChoose.value;
-        
+
         CastDistanceSliderChoose.onValueChanged.AddListener(OnChooseCastDistanceChanged);
-        
-        DepthSlider.onValueChanged.AddListener(delegate { DepthSliderValueChanged();});
-        
-        BaitDropdown.onValueChanged.AddListener(delegate { BaitDropdownValueChanged();});
+
+        DepthSlider.onValueChanged.AddListener(delegate { DepthSliderValueChanged(); });
+
+        BaitDropdown.onValueChanged.AddListener(delegate { BaitDropdownValueChanged(); });
         PopulateBaitOptions();
         Debug.Log($"is _fSui null? {(_fishingSystem == null).ToString()}");
         Debug.Log("FishingUI Start method completed.");
@@ -95,6 +94,7 @@ public class FishingUI : MonoBehaviour
             Debug.Log($"Cannot update UI. FishingSystem is null. StackTrace: {System.Environment.StackTrace}");
             return;
         }
+
         _fishingSystem.SetCastDistance(_selectedCastDistance);
         _fishingSystem.SetDepth(_selectedDepth);
         _fishingSystem.SetBait(_selectedBait);
@@ -149,7 +149,7 @@ public class FishingUI : MonoBehaviour
         _centerValue = value;
         _minValue = _centerValue > 4 ? _centerValue - 3f : 1f;
         _maxValue = _centerValue + 5f;
-        
+
         CastDistanceSliderSet.gameObject.SetActive(true);
         _isMoving = true;
         UpdateButtonText();
@@ -184,16 +184,17 @@ public class FishingUI : MonoBehaviour
     {
         if (_fishingSystem == null)
         {
-            Debug.Log("FIshingSystem is null");
+            Debug.Log("FishingSystem is null");
             return;
         }
-        GlobalManager.Instance.PlayerManager.DeductEnergy(1);
+
         _isMoving = !_isMoving;
         Debug.Log("Current Slider Value: " + CastDistanceSliderSet.value);
         UpdateButtonText();
 
         if (!_isMoving)
         {
+            GlobalManager.Instance.PlayerManager.DeductEnergy(1);
             UpdateUI();
             _fishingSystem.StartFishing();
         }

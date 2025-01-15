@@ -11,24 +11,22 @@ public class UIManager : MonoBehaviour
 
     public void Initialize(WeatherSystem weatherSystem, FishingSystem fishingSystem, InventorySystem inventorySystem)
     {
-        StartCoroutine(WaitForSystemsToInitialize(weatherSystem, fishingSystem, inventorySystem));
+        // Remove the coroutine and do direct initialization
+        if (weatherSystem != null && fishingSystem != null && inventorySystem != null)
+        {
+            Debug.Log("Initializing UI components...");
+            weatherUI?.Initialize();
+            fishingUI?.Initialize();
+            inventoryUI?.Initialize();
+            resourcesUI?.Initialize();
+        }
+        else
+        {
+            Debug.LogError("One or more systems are null during UI initialization");
+        }
     }
 
-    private IEnumerator WaitForSystemsToInitialize(WeatherSystem weatherSystem, FishingSystem fishingSystem,
-        InventorySystem inventorySystem)
-    {
-        while (weatherSystem == null || fishingSystem == null || inventorySystem == null)
-        {
-            Debug.Log("Waiting for systems to initialize...");
-            yield return null;
-        }
-        
-        Debug.Log("Systems initialized!");
-        //weatherUI?.Initialize(weatherSystem);
-        //fishingUI?.Initialize(fishingSystem);
-        //inventoryUI?.Initialize();
-        //resourcesUI?.Initialize();
-    }
+    
 
     private void UpdateWeather()
     {
