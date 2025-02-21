@@ -231,6 +231,7 @@ public class GlobalManager : MonoBehaviour
 
     public void ContinueGame()
     {
+        _gameSystemsInitialized = false;
         SceneManager.sceneLoaded += OnContinueGameLoaded;
         SceneManager.LoadScene("GameScene");
     }
