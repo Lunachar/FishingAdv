@@ -22,7 +22,9 @@ public class FishingSystem
 
     public void SetInventorySystem()
     {
+        //Debug.LogError($"!!! {_inventorySystem.GetInventory().Count}");
         _inventorySystem = GlobalManager.Instance.GetInventorySystem();
+        Debug.LogError($"!!!! {_inventorySystem.GetInventory().Count}");
     }
     public void SetUIManager(UIManager uiManager)
     {
@@ -107,6 +109,7 @@ public class FishingSystem
             Debug.Log("No fish found. Try again!");
             AudioManager.Instance.PlaySoundEffect(AudioManager.Instance.noFishClip);
         }
+        GlobalManager.Instance.UpdateResourcesUI();
     }
 
     /// <summary>

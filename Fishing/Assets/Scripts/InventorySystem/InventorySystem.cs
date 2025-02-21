@@ -15,6 +15,11 @@ public class InventorySystem
         return _inventory;
     }
 
+    public void SetInventory(Dictionary<string, int> inventory)
+    {
+        _inventory = inventory;
+    }
+
     private void AddItem(string item, int amount)
     {
         if (_inventory.ContainsKey(item))

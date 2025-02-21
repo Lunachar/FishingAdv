@@ -41,7 +41,9 @@ public class InventoryUI : MonoBehaviour
     // }
     public void UpdateInventoryUI(Dictionary<string, int> fishInventory)
     {
+        Debug.LogError(InventoryText.text);
         InventoryText.text = ""; // Clear the text
+        InventoryText.ForceMeshUpdate(); // Force the text to update
         foreach (var fish in fishInventory)
         {
             InventoryText.text += fish.Key + ": " + fish.Value + "\n";

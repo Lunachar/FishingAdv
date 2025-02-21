@@ -5139,6 +5139,7 @@ MonoBehaviour:
   SuccessEffect: {fileID: 1306424101}
   displayDuration: 3
   fadeDuration: 1
+  checker: 0
 --- !u!1 &1054690321
 GameObject:
   m_ObjectHideFlags: 0
@@ -12366,7 +12367,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1555324390}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 0
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0

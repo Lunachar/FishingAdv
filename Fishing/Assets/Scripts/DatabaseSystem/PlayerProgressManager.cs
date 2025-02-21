@@ -115,7 +115,7 @@ public class PlayerProgressManager
             }
         }
 
-        return (null, 0, 0, 10, "Ясно", "Лето", new Dictionary<string, int>()); // Если нет данных
+        return (null, 0, 0, 10, "Ясно", "Лето", new Dictionary<string, int>());
     }
 
     public void UpdateInventory(string itemName, int count)
@@ -162,18 +162,41 @@ public class PlayerProgressManager
         using (var connection = new SqliteConnection(_connectionString))
         {
             connection.Open();
-            
-            // Table's data deletion
-            string deleteFromPlayerProgress = "DELETE FROM PlayerProgress";
-            new SqliteCommand(deleteFromPlayerProgress, connection).ExecuteNonQuery();
-            
-            string deleteFromInventory = "DELETE FROM Inventory";
-            new SqliteCommand(deleteFromInventory, connection).ExecuteNonQuery();
-            
+
+            using (var pragmaCmd = new SqliteCommand("PRAGMA foreign_keys = ON", connection))
+            {
+                pragmaCmd.ExecuteNonQuery();
+            }
+
+            using (var transaction = connection.BeginTransaction())
+            {
+                try
+                {
+                    // Table's data deletion
+                    string deleteFromPlayerProgress = "DELETE FROM PlayerProgress";
+                    new SqliteCommand(deleteFromPlayerProgress, connection).ExecuteNonQuery();
+
+                    string deleteFromInventory = "DELETE FROM Inventory";
+                    new SqliteCommand(deleteFromInventory, connection).ExecuteNonQuery();
+
+                    transaction.Commit();
+                }
+                catch
+                {
+                    transaction.Rollback();
+                    throw;
+                }
+            }
+
+            using (var vacuumCommand = new SqliteCommand("VACUUM", connection))
+            {
+                vacuumCommand.ExecuteNonQuery();
+            }
+
             // Initializing with default values
             string resetPlayerProgress =
                 @"INSERT INTO PlayerProgress (PlayerId, Level, CurrentExperience, ExperienceToNextLevel, Coins, Medals, Energy, Weather, Season)
-                VALUES (1, 1, 0, 100, 10, 0, 10, 'Ясно', 'Лето')";
+                VALUES (1, 1, 0, 100, 0, 0, 10, 'Ясно', 'Лето')";
             new SqliteCommand(resetPlayerProgress, connection).ExecuteNonQuery();
         }
     }

@@ -39,6 +39,7 @@ public class UIManager : MonoBehaviour
     // }
     public void UpdateInventory(Dictionary<string, int> fishInventory)
     {
+        Debug.Log(fishInventory.Count);
         inventoryUI?.UpdateInventoryUI(fishInventory);
     }
 

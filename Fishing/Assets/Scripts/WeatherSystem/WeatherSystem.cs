@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,7 +6,7 @@ public class WeatherSystem
     private string _currentWeather;
     private string _currentSeason;
 
-    private List<string> _seasons = new List<string>
+    private readonly List<string> _seasons = new()
     {
         "Spring",
         "Summer",
@@ -15,7 +14,7 @@ public class WeatherSystem
         "Winter"
     };
     
-    private List<string> _weatherTypes = new List<string>
+    private readonly List<string> _weatherTypes = new()
     { 
         "Clear", 
         "Cloudy", 

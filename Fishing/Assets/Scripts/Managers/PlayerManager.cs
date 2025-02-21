@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
@@ -6,7 +7,7 @@ public class PlayerManager : MonoBehaviour
     public int Coins { get; private set; }
     public int Medals { get; private set; }
     public int Energy { get; private set; }
-
+    
     public void Initialize(PlayerState playerState, int coins, int medals, int energy)
     {
         PlayerState = playerState ?? new PlayerState
