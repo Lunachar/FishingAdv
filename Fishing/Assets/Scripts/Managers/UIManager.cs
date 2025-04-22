@@ -37,10 +37,9 @@ public class UIManager : MonoBehaviour
     // {
     //     inventoryUI = FindObjectOfType<InventoryUI>();
     // }
-    public void UpdateInventory(Dictionary<string, int> fishInventory)
+    public void UpdateInventory()
     {
-        Debug.Log(fishInventory.Count);
-        inventoryUI?.UpdateInventoryUI(fishInventory);
+        inventoryUI?.UpdateInventoryUI();
     }
 
     public InventoryUI GetInventoryUI()

@@ -36,6 +36,15 @@ public class PlayerManager : MonoBehaviour
         Energy += energy;
     }
 
+    public void DeductCoins(int coins)
+    {
+        Coins -= coins;
+    }
+
+    public void DeductMedals(int medals)
+    {
+        Medals -= medals;
+    }
     public void DeductEnergy(int energy)
     {
         Energy -= energy;

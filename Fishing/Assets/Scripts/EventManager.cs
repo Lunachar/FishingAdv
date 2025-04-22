@@ -8,6 +8,7 @@ public class EventManager
 
     public static event GameEvent OnFishingStart;
     public static event GameEvent OnWeatherChange;
+    public static event GameEvent OnInventoryUpdated;
 
     public static void StartFishing()
     {
@@ -17,5 +18,10 @@ public class EventManager
     public static void ChangeWeather()
     {
         OnWeatherChange?.Invoke();
+    }
+
+    public static void UpdateInventory()
+    {
+        OnInventoryUpdated?.Invoke();
     }
 }

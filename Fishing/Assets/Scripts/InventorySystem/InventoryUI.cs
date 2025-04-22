@@ -25,7 +25,12 @@ public class InventoryUI : MonoBehaviour
 
     private void Awake()
     {
-        
+        EventManager.OnInventoryUpdated += UpdateInventoryUI;
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.OnInventoryUpdated -= UpdateInventoryUI;
     }
     
     public void Initialize()
@@ -39,12 +44,13 @@ public class InventoryUI : MonoBehaviour
     // {
     //     _audioSource.PlayOneShot(isSuccessful ? successClip : failClip);
     // }
-    public void UpdateInventoryUI(Dictionary<string, int> fishInventory)
+    public void UpdateInventoryUI()
     {
+        var inventory = GlobalManager.Instance.GetInventorySystem().GetInventory();
         Debug.LogError(InventoryText.text);
         InventoryText.text = ""; // Clear the text
         InventoryText.ForceMeshUpdate(); // Force the text to update
-        foreach (var fish in fishInventory)
+        foreach (var fish in inventory)
         {
             InventoryText.text += fish.Key + ": " + fish.Value + "\n";
         }

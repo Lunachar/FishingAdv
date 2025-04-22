@@ -20,6 +20,7 @@ public class GlobalManager : MonoBehaviour
     private InventorySystem _inventorySystem;
 
     private bool _gameSystemsInitialized;
+    private bool _gameStarted;
 
     private void Awake()
     {
@@ -90,6 +91,7 @@ public class GlobalManager : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
 
         SceneManager.sceneLoaded += OnNewGameLoaded;
+        _gameStarted = true;
         SceneManager.LoadScene("GameScene");
     }
 
@@ -231,6 +233,7 @@ public class GlobalManager : MonoBehaviour
 
     public void ContinueGame()
     {
+       if (!_gameStarted) return;
         _gameSystemsInitialized = false;
         SceneManager.sceneLoaded += OnContinueGameLoaded;
         SceneManager.LoadScene("GameScene");
@@ -292,10 +295,19 @@ public class GlobalManager : MonoBehaviour
         var inventoryUI = UIManager?.GetInventoryUI();
         if (inventoryUI != null)
         {
-            inventoryUI.UpdateInventoryUI(GetInventorySystem().GetInventory());
+            inventoryUI.UpdateInventoryUI();
         }
     }
 
+    public DatabaseManager GetDatabaseManager()
+    {
+        return _databaseManager;
+    }
+
+    public PlayerManager GetPlayerManager()
+    {
+        return PlayerManager;
+    }
     public FishingSystem GetFishingSystem()
     {
         return _fishingSystem;
@@ -313,6 +325,14 @@ public class GlobalManager : MonoBehaviour
 
     public void LoadMarket()
     {
-        SceneManager.LoadScene("MarketScene");
+        var marketUI = FindObjectOfType<MarketUI>();
+        if (marketUI != null)
+        {
+            marketUI.OpenMarket();
+        }
+        else
+        {
+            Debug.LogError("MarketUI не найден на сцене! Убедитесь, что MarketUI добавлен в иерархию сцены.");
+        }
     }
-}
+} 

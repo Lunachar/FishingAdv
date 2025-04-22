@@ -16,6 +16,8 @@ public class AudioManager : MonoBehaviour
     public AudioClip successClip;
     public AudioClip failClip;
     public AudioClip noFishClip;
+    public AudioClip sellFishClip;
+    public AudioClip buyEnergyClip;
     public AudioClip fishFlappingTailClip;
     
     private AudioSource _musicSource;

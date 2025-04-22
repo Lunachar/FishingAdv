@@ -8,7 +8,22 @@ public class MainMenuUI : MonoBehaviour
 
     private void Start()
     {
-        NewGameButton.onClick.AddListener(() => GlobalManager.Instance.StartNewGame());
-        ContinueButton.onClick.AddListener(() => GlobalManager.Instance.ContinueGame());
+        NewGameButton.onClick.RemoveAllListeners();
+        ContinueButton.onClick.RemoveAllListeners();
+    
+        NewGameButton.onClick.AddListener(StartNewGame);
+        ContinueButton.onClick.AddListener(ContinueGame);
     }
+
+    private void StartNewGame()
+    {
+        GlobalManager.Instance.StartNewGame();
+        Debug.Log("Button clicked");
+    }
+
+    private void ContinueGame()
+    {
+        GlobalManager.Instance.ContinueGame();
+    }
+
 }

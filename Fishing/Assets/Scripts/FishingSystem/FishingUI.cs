@@ -58,7 +58,6 @@ public class FishingUI : MonoBehaviour
         Debug.Log($"checker 2: {_checker}");
 
         Debug.Log($"is _fSui null? {(_fishingSystem == null).ToString()}");
-        //ButtonStopStart.interactable = false;
         CastDistanceSliderSet.gameObject.SetActive(false);
         ButtonStopStart.onClick.AddListener(ToggleSliderMovement);
         _centerValue = CastDistanceSliderChoose.value;
@@ -72,20 +71,60 @@ public class FishingUI : MonoBehaviour
         Debug.Log($"is _fSui null? {(_fishingSystem == null).ToString()}");
         Debug.Log("FishingUI Start method completed.");
     }
-    // public void Initialize(FishingSystem fishingSystem)
-    // {
-    //     checker += 1;
-    //     Debug.Log($"checker 1: {checker}");
-    //     if(fishingSystem != null)
-    //     {
-    //         _fishingSystem = fishingSystem;
-    //         Debug.Log($"FS in FUI ok. StackTrace: {System.Environment.StackTrace}");
-    //     }
-    //     else
-    //     {
-    //         Debug.Log($"FS in FUI is null.");
-    //     }
-    // }
+
+    private void Update()
+    {
+        if (_isMoving)
+        {
+            MoveSlider();
+        }
+
+        Text_ChooseCastValue.text = CastDistanceSliderChoose.value.ToString(CultureInfo.CurrentCulture);
+        
+        // Проверяем энергию и обновляем состояние кнопки
+        UpdateButtonState();
+    }
+
+    private void UpdateButtonState()
+    {
+        if (GlobalManager.Instance.PlayerManager.Energy <= 0)
+        {
+            ButtonStopStart.interactable = false;
+            ButtonStopStart.GetComponentInChildren<TMP_Text>().text = "Нет энергии";
+        }
+        else
+        {
+            ButtonStopStart.interactable = true;
+            UpdateButtonText();
+        }
+    }
+
+    private void ToggleSliderMovement()
+    {
+        if (_fishingSystem == null)
+        {
+            Debug.Log("FishingSystem is null");
+            return;
+        }
+
+        // Проверяем энергию перед началом рыбалки
+        if (GlobalManager.Instance.PlayerManager.Energy <= 0)
+        {
+            Debug.Log("Недостаточно энергии для рыбалки");
+            return;
+        }
+
+        _isMoving = !_isMoving;
+        Debug.Log("Current Slider Value: " + CastDistanceSliderSet.value);
+        UpdateButtonText();
+
+        if (!_isMoving)
+        {
+            GlobalManager.Instance.PlayerManager.DeductEnergy(1);
+            UpdateUI();
+            _fishingSystem.StartFishing();
+        }
+    }
 
     private void UpdateUI()
     {
@@ -134,16 +173,6 @@ public class FishingUI : MonoBehaviour
         return _selectedDepth;
     }
 
-    private void Update()
-    {
-        if (_isMoving)
-        {
-            MoveSlider();
-        }
-
-        Text_ChooseCastValue.text = CastDistanceSliderChoose.value.ToString(CultureInfo.CurrentCulture);
-    }
-
     private void OnChooseCastDistanceChanged(float value)
     {
         _centerValue = value;
@@ -177,26 +206,6 @@ public class FishingUI : MonoBehaviour
         else
         {
             return Mathf.Lerp(_centerValue, _maxValue, (sliderValue - 0.5f) * 2);
-        }
-    }
-
-    private void ToggleSliderMovement()
-    {
-        if (_fishingSystem == null)
-        {
-            Debug.Log("FishingSystem is null");
-            return;
-        }
-
-        _isMoving = !_isMoving;
-        Debug.Log("Current Slider Value: " + CastDistanceSliderSet.value);
-        UpdateButtonText();
-
-        if (!_isMoving)
-        {
-            GlobalManager.Instance.PlayerManager.DeductEnergy(1);
-            UpdateUI();
-            _fishingSystem.StartFishing();
         }
     }
 

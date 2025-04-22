@@ -86,7 +86,7 @@ public class FishingSystem
                 Fish fishWithSprite = _databaseManager.GetFishDatabaseManager().LoadFishData(_currentFish.FishName);
                 Debug.Log("StartFishing: _uiManager.GetInventoryUI(): " + _uiManager.GetInventoryUI());
                 _uiManager.GetInventoryUI().ShowCatchResult(fishWithSprite, true);
-                _uiManager.UpdateInventory(_inventorySystem.GetInventory());
+                EventManager.UpdateInventory();
                 GlobalManager.Instance.AddFishToInventory(_currentFish, 1);
                 GlobalManager.Instance.PlayerManager.AddExperience(_currentFish.GatheredExperience);
                 GlobalManager.Instance.PlayerManager.AddMedals(_currentFish.Medals);
